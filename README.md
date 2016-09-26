@@ -2,10 +2,10 @@ GraphicsAss2
 =============
 
 Shit you'll need:
-	- SDL2
-	- SDL2 ttf
-	- glew
-	- rapidJSON
+- SDL2
+- SDL2 ttf
+- glew
+- rapidJSON
 
 They should all be correctly placed in the libs/ folder etc. Shouldn't need to manually install, but if everything crashes and burns, instructions can be found below.
 
