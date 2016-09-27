@@ -19,9 +19,7 @@ namespace __game__ {
         cMain(int argc, char** argv);
         ~cMain();
 
-        bool run();
-        bool hasError() { return this->err.size() > 0; }
-        std::string getErrorString();
+        void run();
     private:
         /* Initialization functions */
         void initSDL();
