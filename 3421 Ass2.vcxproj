@@ -105,6 +105,8 @@
   <ItemGroup>
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\logger.hpp" />
+    <ClInclude Include="include\mException.h" />
+    <ClInclude Include="include\object.h" />
     <ClInclude Include="include\rapidjson\allocators.h" />
     <ClInclude Include="include\rapidjson\document.h" />
     <ClInclude Include="include\rapidjson\encodedstream.h" />
@@ -140,6 +142,7 @@
     <ClInclude Include="include\rapidjson\stream.h" />
     <ClInclude Include="include\rapidjson\stringbuffer.h" />
     <ClInclude Include="include\rapidjson\writer.h" />
+    <ClInclude Include="include\road.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -148,6 +151,8 @@
     <ClCompile Include="include\game.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\object.cpp" />
+    <ClCompile Include="src\road.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

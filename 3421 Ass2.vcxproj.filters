@@ -126,6 +126,15 @@
     <ClInclude Include="include\logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\road.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
@@ -138,6 +147,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\road.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

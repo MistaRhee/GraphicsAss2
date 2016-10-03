@@ -26,6 +26,7 @@ namespace __game__ {
     }
 
     void cMain::debugError(std::string e) {
+        if (this->debugLevel < 0) return;
         this->mLog->log(e);
         SDL_ShowSimpleMessageBox(
             SDL_MESSAGEBOX_ERROR,
@@ -37,10 +38,12 @@ namespace __game__ {
     }
 
     void cMain::debugWarning(std::string e) {
+        if (this->debugLevel < 1) return;
         this->mLog->log(e);
     }
 
     void cMain::debugInformation(std::string e) {
+        if (this->debugLevel < 2) return;
         this->mLog->log(e);
     }
 
@@ -65,6 +68,10 @@ namespace __game__ {
         this->mContext = SDL_GL_CreateContext(mWindow);
         if (mContext == NULL) {
             this->debugError(std::string("[game.cpp] Error: OpenGL Context couldn't be created! SDL_Error: ") + std::string(SDL_GetError()));
+        }
+
+        if (SDL_GL_SetSwapInterval(0) < 0) {
+            this->debugWarning(std::string("[game.cpp] Warning: Unable to set swap interval to 0. SDL_Error: ") + std::string(SDL_GetError()));
         }
         GLenum err = GL_NO_ERROR;
         glMatrixMode(GL_PROJECTION);
@@ -91,7 +98,7 @@ namespace __game__ {
     }
 
     void cMain::destroyGL() {
-        /* Nothing here ATM. (possibly need somewhere but I"m retarded) */
+        SDL_GL_DeleteContext(this->mContext);
     }
 
     void cMain::destroySDL() {

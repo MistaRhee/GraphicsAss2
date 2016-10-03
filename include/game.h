@@ -40,6 +40,7 @@ namespace __game__ {
         bool isAlive;
 
         /* Error handling */
+        /* Debug level < 0 is no log */
         void debugError(std::string); //DebugLevel = 0
         void debugWarning(std::string); //DebugLevel = 1
         void debugInformation(std::string); //DebugLevel = 2 (pedantic)
