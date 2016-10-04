@@ -51,7 +51,7 @@ namespace __game__ {
         uint8_t debugLevel;
 
         /* Level I/O */
-        void loadMap(std::string);
+        sMap* loadMap(std::string);
         bool saveMap(std::string);
 
         /* Map storage */
