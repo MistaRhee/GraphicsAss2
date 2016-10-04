@@ -103,8 +103,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\actor.h" />
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\logger.hpp" />
+    <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mException.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\rapidjson\allocators.h" />
@@ -143,13 +145,14 @@
     <ClInclude Include="include\rapidjson\stringbuffer.h" />
     <ClInclude Include="include\rapidjson\writer.h" />
     <ClInclude Include="include\road.h" />
-    <ClInclude Include="map.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\game.cpp" />
+    <ClCompile Include="src\actor.cpp" />
+    <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\levelIo.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
