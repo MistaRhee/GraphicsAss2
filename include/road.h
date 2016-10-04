@@ -14,7 +14,7 @@ namespace __game__ {
         cRoad(double, std::vector<std::pair<double, double> >);
         
         double getWidth();
-        void addSegment(std::pair<double, double> a, std::pair<double, double> b, std::pair<double, double> c); //Starts at A, interpolates B/C
+        void addSegment(std::pair<double, double> start, std::pair<double, double> control, std::pair<double, double> end); //Starts at A, interpolates B/C
 
     private:
         double width;

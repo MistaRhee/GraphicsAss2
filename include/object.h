@@ -20,9 +20,9 @@ namespace __game__ {
         std::pair<double, double> getPoint(int);
         void setPoint(int, double, double);
 
+    protected:
         void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
 
-    protected:
         uint32_t glFlag;
         std::vector<std::pair<double, double> > points;
 

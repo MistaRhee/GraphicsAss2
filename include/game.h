@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdio>
+#include <fstream>
 #include <cstdlib>
 #include <string>
 
@@ -11,6 +11,7 @@
 #include <SDL_ttf.h>
 
 #include "logger.hpp"
+#include "map.h"
 
 namespace __game__ {
 
@@ -21,7 +22,7 @@ namespace __game__ {
 
         void run();
     private:
-        /* Initialization functions */
+        /* Initialization */
         void initSDL();
         void destroySDL();
         void initGL();
@@ -29,15 +30,17 @@ namespace __game__ {
 
         void parseArgs(int, char**);
 
-        /* Game loop functions */
+        /* Game loop */
         void update();
         void render();
         void processEvents();
-        void handleUserKeyboard();
-        void handleUserMouse();
+        void handleUserKeyboard(SDL_Keycode, bool, uint32_t);
+        void handleUserMouse(int, int, int, bool);
+        void handleUserScroll(int, int);
         void sudoku();
 
         bool isAlive;
+        long prevTickCount;
 
         /* Error handling */
         /* Debug level < 0 is no log */
@@ -46,6 +49,17 @@ namespace __game__ {
         void debugInformation(std::string); //DebugLevel = 2 (pedantic)
         __logger::cLogger* mLog;
         uint8_t debugLevel;
+
+        /* Level I/O */
+        void loadMap(std::string);
+        bool saveMap(std::string);
+
+        /* Map storage */
+        void renderMap(sMap*);
+        sMap* mMap;
+
+        /* Actor storage */
+
 
         /* Window storage */
         SDL_Window* mWindow;

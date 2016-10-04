@@ -143,12 +143,14 @@
     <ClInclude Include="include\rapidjson\stringbuffer.h" />
     <ClInclude Include="include\rapidjson\writer.h" />
     <ClInclude Include="include\road.h" />
+    <ClInclude Include="map.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\game.cpp" />
+    <ClCompile Include="src\levelIo.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\object.cpp" />

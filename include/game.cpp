@@ -112,14 +112,27 @@ namespace __game__ {
 
     void cMain::run() {
         uint32_t startTime = SDL_GetTicks();
-        const uint32_t FRAME_CAP = 60 / 1000; //Possibly change later in config file
+        const uint32_t FRAME_CAP = 60 / 1000; //Fixed at 60 FPS 'cus I'm too lazy to do frame independant movement (Bethesda-esqe movement)
 
         while (this->isAlive) {
-            startTime = SDL_GetTicks();
             update();
             processEvents();
             render();
             if ((SDL_GetTicks() - startTime) < FRAME_CAP) SDL_Delay(abs((int)(FRAME_CAP - SDL_GetTicks() + startTime)));
         }
+    }
+
+    void cMain::render() {
+        /* Clear screen */
+        glClear(GL_COLOR_BUFFER_BIT);
+        /* Begin rendering components */
+        
+        /* End rendering components */
+        /* Update the screen */
+        SDL_GL_SwapWindow(this->mWindow);
+    }
+
+    void cMain::update() {
+        /* Stub ATM */
     }
 }
