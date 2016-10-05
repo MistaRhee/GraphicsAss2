@@ -14,7 +14,7 @@ namespace __game__ {
         double sunlight[3];
 
         std::vector<std::pair<double, double> > trees;
-        std::vector<std::vector<double> > altitudes;
+        std::vector<double> altitudes;
 
         std::vector<cRoad> mRoads;
     };

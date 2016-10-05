@@ -18,6 +18,7 @@ namespace __game__ {
 
     private:
         double width;
+        std::pair<double, double> prevStart;
     };
 
 }
