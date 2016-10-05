@@ -41,8 +41,8 @@ namespace __game__ {
 
         for (int i = 0; i < 10; i++) {
             this->points.push_back(std::make_pair(
-                b(0, i/10) * controla[0] + b(1, i/10) * controlb[0] + b(3, i/10) * end[0],
-                b(0, i/10) * controla[1] + b(1, i/10) * controlb[1] + b(3, i/10) * end[1]
+                b(0, i/10) * controla.first + b(1, i/10) * controlb.first + b(3, i/10) * end.first,
+                b(0, i/10) * controla.second + b(1, i/10) * controlb.second + b(3, i/10) * end.second
                 ));
         }
         this->prevStart = end;

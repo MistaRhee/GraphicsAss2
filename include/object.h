@@ -7,13 +7,15 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-#include "mException.h"
-
+#include "globals.h"
 
 namespace __game__ {
 
+    /* To be used as generic components. Actors are the ones with a "render tree" */
     class cObject { //Generic object class
     public:
+        cObject();
+        ~cObject() {}
         cObject(std::vector<std::pair<double, double> >);
         void render();
 

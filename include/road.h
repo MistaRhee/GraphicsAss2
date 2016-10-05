@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "object.h"
-#include "mException.h"
+#include "globals.h"
 
 namespace __game__ {
 

@@ -105,6 +105,7 @@
   <ItemGroup>
     <ClInclude Include="include\actor.h" />
     <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\globals.h" />
     <ClInclude Include="include\logger.hpp" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mException.h" />

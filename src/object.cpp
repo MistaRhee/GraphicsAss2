@@ -2,9 +2,12 @@
 
 namespace __game__ {
 
-    cObject::cObject(std::vector<std::pair<double, double> > points) {
-        this->points = std::vector<std::pair<double, double> >(points);
+    cObject::cObject() {
         this->glFlag = GL_TRIANGLE_FAN;
+    }
+
+    cObject::cObject(std::vector<std::pair<double, double> > points) : cObject() {
+        this->points = std::vector<std::pair<double, double> >(points);
     }
 
     void cObject::render() {

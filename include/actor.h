@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object.h"
+#include "globals.h"
 
 namespace __game__ {
 
@@ -8,20 +9,26 @@ namespace __game__ {
 
     public:
         cActor();
+        cActor(cActor*);
         ~cActor();
+
+        cActor* parent;
 
     protected:
         double x, y, z;
-        int rotation;
+        double rotation;
         double scale; //Everything can only be scaled in a nice way because reasons.
 
-        void setRotation(int);
+        void setRotation(double);
         void setTranslation(double, double, double);
         void setScale(double);
 
         void translate(double, double, double);
         void rotate(int);
         void scale(double);
+
+        /* Sets the parent nicely without changing the global position */
+        void setParent(cActor*);
     };
 
 }

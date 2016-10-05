@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "road.h"
+#include "globals.h"
 
 namespace __game__ {
 
@@ -11,12 +12,13 @@ namespace __game__ {
         int width;
         int depth;
 
-        double sunlight[3];
+        vec3 sunlight;
+        vec3 startLoc;
 
         std::vector<std::pair<double, double> > trees;
         std::vector<double> altitudes;
 
-        std::vector<cRoad> mRoads;
+        std::vector<cRoad> roads;
     };
 
 }
