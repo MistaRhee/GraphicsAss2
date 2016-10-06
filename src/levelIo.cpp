@@ -52,8 +52,4 @@ namespace __game__ {
         return rVal;
     }
 
-    bool cMain::saveMap(std::string outFile) {
-
-    }
-
 }

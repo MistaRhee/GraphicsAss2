@@ -15,6 +15,7 @@ namespace __game__ {
         cActor* parent;
 
     protected:
+        /* Local translation */
         double x, y, z;
         double rotation;
         double scale; //Everything can only be scaled in a nice way because reasons.

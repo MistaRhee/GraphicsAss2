@@ -47,6 +47,12 @@ namespace __game__ {
         this->mLog->log(e);
     }
 
+    void cMain::parseArgs(int argc, char** argv) {
+        for (int i = 1; i < argc; i++) {
+            
+        }
+    }
+
     void cMain::initSDL() {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
             this->debugError(std::string("[game.cpp] Error: Failed to load SDL! SDL_Error: ") + std::string(SDL_GetError()));

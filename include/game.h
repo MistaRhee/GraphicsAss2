@@ -52,7 +52,6 @@ namespace __game__ {
 
         /* Level I/O */
         sMap* loadMap(std::string);
-        bool saveMap(std::string);
 
         /* Map storage */
         void renderMap(sMap*);
