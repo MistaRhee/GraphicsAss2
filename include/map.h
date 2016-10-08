@@ -3,7 +3,7 @@
 #include <vector>
 #include <utility>
 
-#include "road.h"
+#include "object.h"
 #include "globals.h"
 
 namespace __game__ {
@@ -15,7 +15,7 @@ namespace __game__ {
         vec3 sunlight;
         vec3 startLoc;
 
-        std::vector<std::pair<double, double> > trees;
+        std::vector<cTree> trees;
         std::vector<double> altitudes;
 
         std::vector<cRoad> roads;

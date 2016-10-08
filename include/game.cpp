@@ -132,6 +132,8 @@ namespace __game__ {
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
         /* Begin rendering components */
+        if(this->mMap != NULL) renderMap(this->mMap);
+        if (this->currPawn != NULL) this->currPawn->render();
         
         /* End rendering components */
         /* Update the screen */

@@ -80,7 +80,7 @@ namespace __game__ {
                 break;
             case SDLK_d:
                 break;
-            case SDLK_SPACE:
+            case SDLK_SPACE: //jump
                 break;
             default: //Unhandled key case
                 break;

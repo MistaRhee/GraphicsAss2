@@ -9,27 +9,16 @@ namespace __game__ {
 
     public:
         cActor();
-        cActor(cActor*);
+        cActor(cObject*);
         ~cActor();
 
-        cActor* parent;
+        void update();
+
+        void move(vec3); //Changes increases velocity by ddx
+        void setSpeed(vec3); //Sets velocity
 
     protected:
-        /* Local translation */
-        double x, y, z;
-        double rotation;
-        double scale; //Everything can only be scaled in a nice way because reasons.
-
-        void setRotation(double);
-        void setTranslation(double, double, double);
-        void setScale(double);
-
-        void translate(double, double, double);
-        void rotate(int);
-        void scale(double);
-
-        /* Sets the parent nicely without changing the global position */
-        void setParent(cActor*);
+        vec3 velocity;
     };
 
 }

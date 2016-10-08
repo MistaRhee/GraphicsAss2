@@ -12,6 +12,9 @@
 
 #include "logger.hpp"
 #include "map.h"
+#include "actor.h"
+#include "pawn.h"
+#include "object.h"
 
 namespace __game__ {
 
@@ -58,7 +61,7 @@ namespace __game__ {
         sMap* mMap;
 
         /* Actor storage */
-
+        cPawn* currPawn; //If not assigned, then free camera which can fly through 
 
         /* Window storage */
         SDL_Window* mWindow;

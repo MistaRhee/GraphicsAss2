@@ -12,6 +12,36 @@ struct vec3 {
         this->z = z;
     }
 
+    vec3& operator+=(const vec3& rhs) {
+        this->x += rhs.x;
+        this->y += rhs.y;
+        this->z += rhs.z;
+        return *this;
+    }
+
+    vec3& operator-=(const vec3& rhs) {
+        this->x -= rhs.x;
+        this->y -= rhs.y;
+        this->z -= rhs.z;
+        return *this;
+    }
+
+    vec3& operator*=(const vec3& rhs) { //Cross product
+        return vec3(this->y*rhs.z - this->z*rhs.y, this->z*rhs.x - this->x*rhs.z, this->x*rhs.y - this->y*rhs.x);
+    }
+
+    friend vec3 operator+(vec3 lhs, const vec3& rhs) {
+        return lhs += rhs;
+    }
+
+    friend vec3 operator-(vec3 lhs, const vec3& rhs) {
+        return lhs -= rhs;
+    }
+
+    double dot(vec3 rhs) {
+        return (this->x*rhs.x + this->y*rhs.y + this->z*rhs.z);
+    }
+
     double x;
     double y;
     double z;

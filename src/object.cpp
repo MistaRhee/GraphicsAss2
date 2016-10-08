@@ -6,6 +6,10 @@ namespace __game__ {
         this->glFlag = GL_TRIANGLE_FAN;
     }
 
+    cObject::cObject(cObject* parent) {
+        this->parent = parent;
+    }
+
     cObject::cObject(std::vector<std::pair<double, double> > points) : cObject() {
         this->points = std::vector<std::pair<double, double> >(points);
     }
@@ -31,4 +35,41 @@ namespace __game__ {
     void cObject::setGLFlag(uint32_t flag) {
         this->glFlag = flag;
     }
+
+    void cObject::addChild(cObject* c) {
+        this->children.push_back(c);
+    }
+
+    void cObject::setParent(cObject* p) {
+        this->parent = parent;
+        /* Do changes to translation here*/
+        //TODO
+    }
+
+    void cObject::setRotation(double r) {
+        this->rotation = r;
+    }
+
+    void cObject::setTranslation(vec3 t) {
+        this->translation = t;
+    }
+
+    void cObject::setScale(double s) {
+        this->scale = s;
+    }
+
+    void cObject::translate(vec3 t) {
+        this->translation += t;
+    }
+
+    void cObject::rotate(double r) {
+        this->rotation += r;
+        if (this->rotation > 180) this->rotation -= 360;
+        if (this->rotation < -180) this->rotation += 360;
+    }
+
+    void cObject::rescale(double s) {
+        this->scale += s;
+    }
+
 }

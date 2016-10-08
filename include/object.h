@@ -16,17 +16,65 @@ namespace __game__ {
     public:
         cObject();
         ~cObject() {}
+        cObject(cObject*);
         cObject(std::vector<std::pair<double, double> >);
-        void render();
+        virtual void render();
 
         std::pair<double, double> getPoint(int);
         void setPoint(int, double, double);
+
+        cObject* parent;
+
+        void addChild(cObject*);
+
+        /* Sets the parent nicely without changing the global position */
+        void setParent(cObject*);
+
+        void setRotation(double);
+        void setTranslation(vec3);
+        void setScale(double);
+
+        void translate(vec3);
+        void rotate(double);
+        void rescale(double);
 
     protected:
         void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
 
         uint32_t glFlag;
         std::vector<std::pair<double, double> > points;
+
+        std::vector<cObject*> children;
+
+        /* Local translation */
+        vec3 translation;
+        double rotation;
+        double scale; //Everything can only be scaled in a nice way because reasons.
+
+    };
+
+    class cRoad : public cObject {
+    public:
+        cRoad(double, double, double);
+        cRoad(double, std::vector<std::pair<double, double> >);
+        
+        double getWidth();
+        void addSegment(std::pair<double, double> start, std::pair<double, double> control, std::pair<double, double> end); //Starts at A, interpolates B/C
+
+    private:
+        double width;
+        std::pair<double, double> prevStart;
+    };
+
+    class cTree : public cObject {
+    public:
+        cTree(double, double);
+        void addPoints(double); //Proposed heights, will be built when started
+
+        bool pointsGenerated;
+
+    private:
+        std::pair<double, double> location;
 
     };
 
