@@ -10,6 +10,12 @@ namespace __game__ {
         this->parent = parent;
     }
 
+    cObject::cObject(vec3 t, double r, double s) {
+        this->translation = t;
+        this->rotation = r;
+        this->scale = s;
+    }
+
     cObject::cObject(std::vector<std::pair<double, double> > points) : cObject() {
         this->points = std::vector<std::pair<double, double> >(points);
     }
@@ -43,7 +49,7 @@ namespace __game__ {
     void cObject::setParent(cObject* p) {
         this->parent = parent;
         /* Do changes to translation here*/
-        //TODO
+        //TODO: Finish this
     }
 
     void cObject::setRotation(double r) {

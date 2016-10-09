@@ -7,6 +7,9 @@ namespace __game__ {
         this->isAlive = true;
         this->mWindow = NULL;
         this->mContext = NULL;
+        this->currPawn = NULL;
+        
+        this->mCamera = new cCamera(NULL, vec3(0, 0, 0), 0, 0); 
 
         parseArgs(argc, argv);
 
@@ -49,7 +52,15 @@ namespace __game__ {
 
     void cMain::parseArgs(int argc, char** argv) {
         for (int i = 1; i < argc; i++) {
-            
+            for (int j = 0, k = strlen(argv[i]); j < k; j++) {
+                if (argv[i][j] == 'v') {
+                    this->debugLevel++;
+                }
+                if (argv[i][j] == 'c') {
+                    this->debugLevel = -1;
+                    return; //I really am lazy -_-
+                }
+            }
         }
     }
 
@@ -62,7 +73,7 @@ namespace __game__ {
         this->mWindow = SDL_CreateWindow(
             "3421 Second Assignment",
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            800, 600,
+            GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT,
             SDL_WINDOW_OPENGL
             );
         if (this->mWindow == NULL) {
@@ -79,9 +90,13 @@ namespace __game__ {
         if (SDL_GL_SetSwapInterval(0) < 0) {
             this->debugWarning(std::string("[game.cpp] Warning: Unable to set swap interval to 0. SDL_Error: ") + std::string(SDL_GetError()));
         }
+
         GLenum err = GL_NO_ERROR;
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
+        /* Set the perspective camera. */
+//TODO: Tweak numbers to make stuff look pretty
+        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0, 10);
 
         err = glGetError();
         if (err != GL_NO_ERROR) {
@@ -96,11 +111,34 @@ namespace __game__ {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
-        glClearColor(0.f, 0.f, 0.f, 1.f);
+        glClearColor(0.f, 0.f, 0.f, 1.f); //Black clear colour
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
+
+        /* Back face culling */
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        /* Enable depth testing */
+        glEnable(GL_DEPTH_TEST);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        glEnable(GL_LIGHTING);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        glEnable(GL_LIGHT0); //Will be used for sunlight, specific point lights will have to wait.
     }
 
     void cMain::destroyGL() {
@@ -130,11 +168,14 @@ namespace __game__ {
 
     void cMain::render() {
         /* Clear screen */
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         /* Begin rendering components */
-        if(this->mMap != NULL) renderMap(this->mMap);
+        if (this->mCamera != NULL) this->mCamera->render();
+        if (this->mMap != NULL) renderMap(this->mMap);
         if (this->currPawn != NULL) this->currPawn->render();
-        
+        for (auto it : this->mActors) {
+            it.second->render();
+        }
         /* End rendering components */
         /* Update the screen */
         SDL_GL_SwapWindow(this->mWindow);
@@ -142,5 +183,12 @@ namespace __game__ {
 
     void cMain::update() {
         /* Stub ATM */
+        for (auto it : this->mActors) {
+            it.second->update();
+        }
+    }
+
+    void cMain::renderMap(sMap* mMap) {
+
     }
 }

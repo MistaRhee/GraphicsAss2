@@ -74,14 +74,19 @@ namespace __game__ {
         switch (key) {
             case SDLK_w:
                 break;
+
             case SDLK_s:
                 break;
+
             case SDLK_a:
                 break;
+
             case SDLK_d:
                 break;
+
             case SDLK_SPACE: //jump
                 break;
+
             default: //Unhandled key case
                 break;
         }

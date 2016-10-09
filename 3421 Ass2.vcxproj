@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="include\game.cpp" />
     <ClCompile Include="src\actor.cpp" />
+    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\levelIo.cpp" />
     <ClCompile Include="src\logger.cpp" />

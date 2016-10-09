@@ -7,4 +7,8 @@ namespace __game__ {
         this->pointsGenerated = false;
     }
 
+    void cTree::addHeights(double h) {
+        //TODO: Finish this
+    }
+
 }

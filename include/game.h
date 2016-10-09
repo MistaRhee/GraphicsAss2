@@ -16,6 +16,9 @@
 #include "pawn.h"
 #include "object.h"
 
+#define GAME_WINDOW_WIDTH 800
+#define GAME_WINDOW_HEIGHT 600
+
 namespace __game__ {
 
     class cMain {
@@ -61,7 +64,9 @@ namespace __game__ {
         sMap* mMap;
 
         /* Actor storage */
+        cCamera* mCamera; //Will always have a value
         cPawn* currPawn; //If not assigned, then free camera which can fly through 
+        std::map<std::string, cActor*> mActors; //Actor storage (named for ease of access)
 
         /* Window storage */
         SDL_Window* mWindow;

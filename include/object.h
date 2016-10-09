@@ -17,6 +17,7 @@ namespace __game__ {
         cObject();
         ~cObject() {}
         cObject(cObject*);
+        cObject(vec3, double, double);
         cObject(std::vector<std::pair<double, double> >);
         virtual void render();
 
@@ -30,13 +31,13 @@ namespace __game__ {
         /* Sets the parent nicely without changing the global position */
         void setParent(cObject*);
 
-        void setRotation(double);
-        void setTranslation(vec3);
-        void setScale(double);
+        virtual void setRotation(double);
+        virtual void setTranslation(vec3);
+        virtual void setScale(double);
 
-        void translate(vec3);
-        void rotate(double);
-        void rescale(double);
+        virtual void translate(vec3);
+        virtual void rotate(double);
+        virtual void rescale(double);
 
     protected:
         void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
