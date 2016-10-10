@@ -38,6 +38,14 @@ struct vec3 {
         return lhs -= rhs;
     }
 
+    friend bool operator==(const vec3& lhs, const vec3& rhs) {
+        return((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z));
+    }
+
+    friend bool operator!=(const vec3& lhs, const vec3& rhs) {
+        return(!(lhs==rhs));
+    }
+
     double dot(vec3 rhs) {
         return (this->x*rhs.x + this->y*rhs.y + this->z*rhs.z);
     }

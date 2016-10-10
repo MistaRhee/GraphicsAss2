@@ -28,15 +28,21 @@ namespace __game__ {
 
         void addChild(cObject*);
 
+
+        /* All rotations are around axis. Be nice. GEOFF THAT MEANS YOU */
         /* Sets the parent nicely without changing the global position */
         void setParent(cObject*);
 
-        virtual void setRotation(double);
+        vec3 getGlobalTranslation();
+        vec3 getGlobalRotation();
+        double getGlobalScale();
+
+        virtual void setRotation(vec3);
         virtual void setTranslation(vec3);
         virtual void setScale(double);
 
         virtual void translate(vec3);
-        virtual void rotate(double);
+        virtual void rotate(double, vec3);
         virtual void rescale(double);
 
     protected:
@@ -49,7 +55,7 @@ namespace __game__ {
 
         /* Local translation */
         vec3 translation;
-        double rotation;
+        vec3 rotation;
         double scale; //Everything can only be scaled in a nice way because reasons.
 
     };

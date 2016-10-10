@@ -170,6 +170,11 @@ namespace __game__ {
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         /* Begin rendering components */
+        /* Reset the matrix, just in case I pull a full retard */
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        /* KappaPride */
+
         if (this->mCamera != NULL) this->mCamera->render();
         if (this->mMap != NULL) renderMap(this->mMap);
         if (this->currPawn != NULL) this->currPawn->render();

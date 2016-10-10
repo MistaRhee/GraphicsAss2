@@ -20,11 +20,11 @@ namespace __game__ {
 
         /* Removing any possibility of me being a retard */
         void translate(vec3) override {}
-        void rotate(double) override {}
+        void rotate(double, vec3) override {}
         void rescale(double) override {} //Why would you ever scale a camera???!?
 
         void setTranslation(vec3) override {}
-        void setRotation(double) override {}
+        void setRotation(vec3) override {}
         void setScale(double) override {}
         
         void setThirdPersonDist(double);
@@ -43,6 +43,8 @@ namespace __game__ {
 
     protected:
         bool renderModel;
+
+        cCamera* mCamera;
 
         std::map<std::string, cActor> models; //First person/third person
     };

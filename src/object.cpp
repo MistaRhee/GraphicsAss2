@@ -49,10 +49,10 @@ namespace __game__ {
     void cObject::setParent(cObject* p) {
         this->parent = parent;
         /* Do changes to translation here*/
-        //TODO: Finish this
+        //TODO: Finish this when I actually have time
     }
 
-    void cObject::setRotation(double r) {
+    void cObject::setRotation(vec3 r) {
         this->rotation = r;
     }
 
@@ -68,14 +68,32 @@ namespace __game__ {
         this->translation += t;
     }
 
-    void cObject::rotate(double r) {
-        this->rotation += r;
-        if (this->rotation > 180) this->rotation -= 360;
-        if (this->rotation < -180) this->rotation += 360;
+    /* Ensure axis is either (1,0,0) (0,1,0) (0,0,1) or I will crash on you. */
+    void cObject::rotate(double r, vec3 axis) {
+        if (axis != vec3(1, 0, 0) && axis != vec3(0, 1, 0) && axis != vec3(0, 0, 1)) abort();
+        this->rotation += vec3(axis.x*r, axis.y*r, axis.z*r);
+        if (this->rotation.x > 180) this->rotation.x -= 360;
+        if (this->rotation.x < -180) this->rotation.x += 360;
+        if (this->rotation.y > 180) this->rotation.y -= 360;
+        if (this->rotation.y < -180) this->rotation.y += 360;
+        if (this->rotation.z > 180) this->rotation.z -= 360;
+        if (this->rotation.z < -180) this->rotation.z += 360;
     }
 
     void cObject::rescale(double s) {
         this->scale += s;
+    }
+
+    vec3 cObject::getGlobalRotation() {
+        //TODO: Finish this
+    }
+
+    vec3 cObject::getGlobalTranslation() {
+        //TODO: Finish this
+    }
+
+    double cObject::getGlobalScale() {
+        //TODO: Finish this
     }
 
 }
