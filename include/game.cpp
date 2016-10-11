@@ -9,7 +9,10 @@ namespace __game__ {
         this->mContext = NULL;
         this->currPawn = NULL;
         
+        this->ROOT = new cObject();
+        this->ROOT->hidden = true;
         this->mCamera = new cCamera(NULL, vec3(0, 0, 0), 0, 0); 
+        this->mCamera->setParent(this->ROOT); //EVEN MORE ResidentSleeper
 
         parseArgs(argc, argv);
 
@@ -175,12 +178,8 @@ namespace __game__ {
         glLoadIdentity();
         /* KappaPride */
 
-        if (this->mCamera != NULL) this->mCamera->render();
         if (this->mMap != NULL) renderMap(this->mMap);
-        if (this->currPawn != NULL) this->currPawn->render();
-        for (auto it : this->mActors) {
-            it.second->render();
-        }
+        this->ROOT->render();
         /* End rendering components */
         /* Update the screen */
         SDL_GL_SwapWindow(this->mWindow);

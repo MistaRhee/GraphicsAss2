@@ -17,7 +17,7 @@ namespace __game__ {
         cObject();
         ~cObject() {}
         cObject(cObject*);
-        cObject(vec3, double, double);
+        cObject(vec3, vec3, double);
         cObject(std::vector<std::pair<double, double> >);
         virtual void render();
 
@@ -33,10 +33,6 @@ namespace __game__ {
         /* Sets the parent nicely without changing the global position */
         void setParent(cObject*);
 
-        vec3 getGlobalTranslation();
-        vec3 getGlobalRotation();
-        double getGlobalScale();
-
         virtual void setRotation(vec3);
         virtual void setTranslation(vec3);
         virtual void setScale(double);
@@ -44,6 +40,8 @@ namespace __game__ {
         virtual void translate(vec3);
         virtual void rotate(double, vec3);
         virtual void rescale(double);
+
+        bool hidden; //ResidentSleeper
 
     protected:
         void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
@@ -76,11 +74,9 @@ namespace __game__ {
     class cTree : public cObject {
     public:
         cTree(double, double);
+    private:
         void addPoints(double); //Proposed heights, will be built when started
 
-        bool pointsGenerated;
-
-    private:
         std::pair<double, double> location;
 
     };

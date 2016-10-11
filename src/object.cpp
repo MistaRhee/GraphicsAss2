@@ -4,13 +4,14 @@ namespace __game__ {
 
     cObject::cObject() {
         this->glFlag = GL_TRIANGLE_FAN;
+        this->hidden = false;
     }
 
-    cObject::cObject(cObject* parent) {
+    cObject::cObject(cObject* parent) : cObject() {
         this->parent = parent;
     }
 
-    cObject::cObject(vec3 t, double r, double s) {
+    cObject::cObject(vec3 t, vec3 r, double s) : cObject() {
         this->translation = t;
         this->rotation = r;
         this->scale = s;
@@ -21,13 +22,25 @@ namespace __game__ {
     }
 
     void cObject::render() {
-        glBegin(glFlag);
-        {
-            for (auto p : this->points) {
-                glVertex2d(p.first, p.second);
+        glPushMatrix();
+        glTranslated(this->translation.x, this->translation.y, this->translation.z);
+        glRotated(this->rotation.x, 1, 0, 0);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.z, 0, 0, 1);
+        glScaled(this->scale, this->scale, this->scale);
+        if (!hidden) {
+            glBegin(glFlag);
+            {
+                for (auto p : this->points) {
+                    glVertex2d(p.first, p.second);
+                }
             }
+            glEnd();
         }
-        glEnd();
+        for (auto ch : this->children) {
+            ch->render();
+        }
+        glPopMatrix();
     }
 
     std::pair<double, double> cObject::getPoint(int index) {
@@ -46,7 +59,7 @@ namespace __game__ {
         this->children.push_back(c);
     }
 
-    void cObject::setParent(cObject* p) {
+    void cObject::setParent(cObject* p) { //Should never be needed -> Only to be abused by me later -_-
         this->parent = parent;
         /* Do changes to translation here*/
         //TODO: Finish this when I actually have time
@@ -82,18 +95,6 @@ namespace __game__ {
 
     void cObject::rescale(double s) {
         this->scale += s;
-    }
-
-    vec3 cObject::getGlobalRotation() {
-        //TODO: Finish this
-    }
-
-    vec3 cObject::getGlobalTranslation() {
-        //TODO: Finish this
-    }
-
-    double cObject::getGlobalScale() {
-        //TODO: Finish this
     }
 
 }

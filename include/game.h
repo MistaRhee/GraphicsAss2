@@ -11,7 +11,6 @@
 #include <SDL_ttf.h>
 
 #include "logger.hpp"
-#include "map.h"
 #include "actor.h"
 #include "pawn.h"
 #include "object.h"
@@ -36,6 +35,9 @@ namespace __game__ {
 
         void parseArgs(int, char**);
 
+        /* Level I/O */
+        void loadMap(std::string); //HACK: just for the purposes of this assignment
+
         /* Game loop */
         void update();
         void render();
@@ -56,20 +58,19 @@ namespace __game__ {
         __logger::cLogger* mLog;
         uint8_t debugLevel;
 
-        /* Level I/O */
-        sMap* loadMap(std::string);
-
-        /* Map storage */
-        void renderMap(sMap*);
-        sMap* mMap;
-
         /* Actor storage */
-        cCamera* mCamera; //Will always have a value
-        cPawn* currPawn; //If not assigned, then free camera which can fly through 
+        cObject* ROOT;//Is the root object. Stay safe young one
+        cCamera* mCamera; //Will always have a value. For quick access for third person
+        cPawn* currPawn; //If not assigned, then free camera which can fly through. Rapid collision detection stuffs ECKS DEE
         std::map<std::string, cActor*> mActors; //Actor storage (named for ease of access)
 
         /* Window storage */
         SDL_Window* mWindow;
         SDL_GLContext mContext;
+
+
+        /* Current map storage data */
+        int width;
+        int depth;
     };
 }

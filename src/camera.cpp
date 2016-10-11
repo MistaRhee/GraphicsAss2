@@ -1,4 +1,4 @@
-#include "pawn.h" //Really shouldn't be in here, but I"m lazy
+﻿#include "pawn.h" //Really shouldn't be in here, but I"m lazy
 
 
 namespace __game__ {
@@ -10,11 +10,22 @@ namespace __game__ {
     cCamera::~cCamera() {}
 
     void cCamera::render() {
-        /* Shouldn't have rotation around z */
+        glPushMatrix();
+        glTranslated(this->translation.x, this->translation.y, this->translation.z);
+        glRotated(this->rotation.x, 1, 0, 0);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.z, 0, 0, 1);
+        glScaled(this->scale, this->scale, this->scale);
+
+        double* mMatrix = NULL;
+        glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);
+
         gluLookAt(
-            this->translation.x, this->translation.y, this->translation.z,
-            
-            0, 0, 1);
+            mMatrix[0 * 4 + 3], mMatrix[1 * 4 + 3], mMatrix[2 * 4 + 3], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯
+            mMatrix[2 * 4 + 0], mMatrix[2 * 4 + 1], mMatrix[2 * 4 + 2], 
+            0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
+            );
+        glPopMatrix();
     }
 
     void cCamera::setThirdPersonDist(double dist) {

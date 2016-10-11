@@ -4,36 +4,53 @@
 #include "rapidjson/istreamwrapper.h"
 #include "globals.h"
 
+/* Out of ResidentSleeper L ResidentSleeper A ResidentSleeper Z ResidentSleeper I ResidentSleeper N ResidentSleeper E ResidentSleeper S ResidentSleeper S ResidentSleeper */
+/* "Chunks" (blocks of altitudes) that are in view will be set to 3x3 for the moment */
+
 namespace __game__ {
 
     //TODO: Add handling errornous inputs (Currently undefined)
-    sMap* cMain::loadMap(std::string inFile) {
+    void cMain::loadMap(std::string inFile) {
         std::ifstream ifs(inFile);
         rapidjson::IStreamWrapper isw(ifs);
 
         rapidjson::Document doc;
         doc.ParseStream(isw);
 
-        sMap* rVal = NULL;
-        rVal = new sMap;
-        
         /* Grab basic details */
-        if (doc.HasMember("width")) rVal->width = doc["width"].GetInt();
-        if (doc.HasMember("depth")) rVal->depth = doc["depth"].GetInt();
+        if (doc.HasMember("width")) this->width = doc["width"].GetInt();
+        if (doc.HasMember("depth")) this->depth = doc["depth"].GetInt();
         if (doc.HasMember("sunlight")) {
-            rVal->sunlight = vec3(
-                doc["sunlight"][0].GetDouble(),
-                doc["sunlight"][1].GetDouble(),
-                doc["sunlight"][2].GetDouble()
-                );
+            //TODO: Tweak numbers to make it look good.
+            float globalAmb[] = { 0.2, 0.2, 0.2, 0.1 };
+            glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
+
+            float localAmb[] = {0.1, 0.1, 0.1, 1};
+            float localDiff[] = {1, 1, 1, 1};
+            float localSpec[] = {1, 1, 1, 1};
+            float position[] = { doc["sunlight"][0].GetDouble(), doc["sunlight"][1].GetDouble(), doc["sunlight"][2].GetDouble(), 1 };
+            glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
+            glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
+            glLightfv(GL_LIGHT0, GL_POSITION, position);
         }
         if (doc.HasMember("altitude")) {
+            std::vector<double> alts;
             for (int i = 0; i < doc["altitude"].Size(); i++) {
-                rVal->altitudes.push_back(doc["altitudes"][i].GetDouble());
+                alts.push_back(doc["altitudes"][i].GetDouble());
+            }
+            //TODO: Generate points (doing the extra vertex in the center trick)
+            cObject mMap(this->ROOT);
+            for (int i = 0, z = doc["width"].GetInt(); i < z; i++) {
+                for (int j = 0, y = doc["height"].GetInt(); j < y; j++) {
+                    
+                }
             }
         }
+        //FIXME: Finish this.
         if (doc.HasMember("trees")) {
             for (int i = 0; i < doc["trees"].Size(); i++) {
+                this->ROOT->addChild();
                 rVal->trees.push_back(std::make_pair(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble())); //Wew
             }
         }

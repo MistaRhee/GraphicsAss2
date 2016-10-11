@@ -39,10 +39,7 @@ namespace __game__ {
         cPawn();
         ~cPawn();
 
-        void render() override;
-
     protected:
-        bool renderModel;
 
         cCamera* mCamera;
 

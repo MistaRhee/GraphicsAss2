@@ -132,9 +132,6 @@
     <ClInclude Include="include\object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>

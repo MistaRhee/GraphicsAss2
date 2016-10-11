@@ -11,7 +11,7 @@ namespace __game__ {
 
     cActor::cActor(cObject* parent) : cObject(parent) {
         this->translation = vec3(0, 0, 0);
-        this->rotation = 0;
+        this->rotation = vec3(0, 0, 0);
         this->scale = 1;
         this->parent = parent;
     }
