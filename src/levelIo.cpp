@@ -28,7 +28,9 @@ namespace __game__ {
             float localAmb[] = {0.1, 0.1, 0.1, 1};
             float localDiff[] = {1, 1, 1, 1};
             float localSpec[] = {1, 1, 1, 1};
+            /* FIXME: Unfuck this shit */
             float position[] = { doc["sunlight"][0].GetDouble(), doc["sunlight"][1].GetDouble(), doc["sunlight"][2].GetDouble(), 1 };
+
             glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
             glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
             glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
@@ -47,11 +49,9 @@ namespace __game__ {
                 }
             }
         }
-        //FIXME: Finish this.
         if (doc.HasMember("trees")) {
             for (int i = 0; i < doc["trees"].Size(); i++) {
-                this->ROOT->addChild();
-                rVal->trees.push_back(std::make_pair(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble())); //Wew
+                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble()));
             }
         }
         if (doc.HasMember("roads")) {

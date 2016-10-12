@@ -178,8 +178,8 @@ namespace __game__ {
         glLoadIdentity();
         /* KappaPride */
 
-        if (this->mMap != NULL) renderMap(this->mMap);
         this->ROOT->render();
+
         /* End rendering components */
         /* Update the screen */
         SDL_GL_SwapWindow(this->mWindow);
@@ -192,7 +192,4 @@ namespace __game__ {
         }
     }
 
-    void cMain::renderMap(sMap* mMap) {
-
-    }
 }

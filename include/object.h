@@ -73,7 +73,7 @@ namespace __game__ {
 
     class cTree : public cObject {
     public:
-        cTree(double, double);
+        cTree(double, double, double);
     private:
         void addPoints(double); //Proposed heights, will be built when started
 
