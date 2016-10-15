@@ -43,15 +43,16 @@ namespace __game__ {
             }
             //TODO: Generate points (doing the extra vertex in the center trick)
             cObject mMap(this->ROOT);
-            for (int i = 0, z = doc["width"].GetInt(); i < z; i++) {
-                for (int j = 0, y = doc["height"].GetInt(); j < y; j++) {
-                    
+            for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
+                for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
+                    /* Add middle then the four corners */
+                    mMap.addPoint();
                 }
             }
         }
         if (doc.HasMember("trees")) {
             for (int i = 0; i < doc["trees"].Size(); i++) {
-                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble()));
+                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(), ));
             }
         }
         if (doc.HasMember("roads")) {

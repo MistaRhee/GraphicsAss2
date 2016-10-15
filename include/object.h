@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <cstdio>
 #include <vector>
 #include <utility>
@@ -18,16 +19,16 @@ namespace __game__ {
         ~cObject() {}
         cObject(cObject*);
         cObject(vec3, vec3, double);
-        cObject(std::vector<std::pair<double, double> >);
+        cObject(std::vector<vec3>);
         virtual void render();
 
-        std::pair<double, double> getPoint(int);
-        void setPoint(int, double, double);
+        vec3 getPoint(int);
+        void setPoint(int, vec3);
 
         cObject* parent;
 
         void addChild(cObject*);
-
+        void addPoint(vec3);
 
         /* All rotations are around axis. Be nice. GEOFF THAT MEANS YOU */
         /* Sets the parent nicely without changing the global position */
@@ -47,7 +48,7 @@ namespace __game__ {
         void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
 
         uint32_t glFlag;
-        std::vector<std::pair<double, double> > points;
+        std::vector<vec3> points;
 
         std::vector<cObject*> children;
 
@@ -56,6 +57,11 @@ namespace __game__ {
         vec3 rotation;
         double scale; //Everything can only be scaled in a nice way because reasons.
 
+    };
+
+    class cMap : public cObject {
+    public:
+        void render() override;
     };
 
     class cRoad : public cObject {

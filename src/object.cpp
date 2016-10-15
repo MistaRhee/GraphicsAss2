@@ -17,8 +17,8 @@ namespace __game__ {
         this->scale = s;
     }
 
-    cObject::cObject(std::vector<std::pair<double, double> > points) : cObject() {
-        this->points = std::vector<std::pair<double, double> >(points);
+    cObject::cObject(std::vector<vec3> points) : cObject() {
+        this->points = std::vector<vec3>(points);
     }
 
     void cObject::render() {
@@ -32,7 +32,7 @@ namespace __game__ {
             glBegin(glFlag);
             {
                 for (auto p : this->points) {
-                    glVertex2d(p.first, p.second);
+                    glVertex3d(p.x, p.y, p.z);
                 }
             }
             glEnd();
@@ -43,12 +43,16 @@ namespace __game__ {
         glPopMatrix();
     }
 
-    std::pair<double, double> cObject::getPoint(int index) {
+    vec3 cObject::getPoint(int index) {
         return this->points[index];
     }
 
-    void cObject::setPoint(int index, double x, double y) {
-        this->points[index] = std::make_pair(x, y);
+    void cObject::addPoint(vec3 p) {
+        this->points.push_back(p);
+    }
+
+    void cObject::setPoint(int index, vec3 p) {
+        this->points[index] = p;
     }
 
     void cObject::setGLFlag(uint32_t flag) {

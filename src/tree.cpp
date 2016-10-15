@@ -11,7 +11,12 @@ namespace __game__ {
 
     void cTree::addPoints(double h) {
         /* Trees have radius from 2 units -> 5 units */
-
+        double radius = (int)rand()%3+2;
+        /* Estimate base with 64 points */
+        for (int i = 0; i < 64; i++) {
+            double theta = (2 * M_PI) * i / 64;
+            /* Points go from 0 -> height*/
+        }
     }
 
 }
