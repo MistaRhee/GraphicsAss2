@@ -7,6 +7,16 @@
 /* Out of ResidentSleeper L ResidentSleeper A ResidentSleeper Z ResidentSleeper I ResidentSleeper N ResidentSleeper E ResidentSleeper S ResidentSleeper S ResidentSleeper */
 /* "Chunks" (blocks of altitudes) that are in view will be set to 3x3 for the moment */
 
+/*
+   x0   x1   x2   x3   x4
+z0 0    1    1    1    2
+z1 0    1    2    3    2
+z2 0    1    1    2    3
+z3 0    1    1    1    2
+z4 0    1    1    1    1
+
+*/
+
 namespace __game__ {
 
     //TODO: Add handling errornous inputs (Currently undefined)
@@ -36,8 +46,8 @@ namespace __game__ {
             glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
             glLightfv(GL_LIGHT0, GL_POSITION, position);
         }
+        std::vector<double> alts; //HACKS!!!
         if (doc.HasMember("altitude")) {
-            std::vector<double> alts;
             for (int i = 0; i < doc["altitude"].Size(); i++) {
                 alts.push_back(doc["altitudes"][i].GetDouble());
             }
@@ -46,7 +56,11 @@ namespace __game__ {
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap.addPoint();
+                    mMap.addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, j+0.5)); //Middle point is interpolated from the corners
+                    mMap.addPoint(vec3(i, alts[i+j*z], j));
+                    mMap.addPoint(vec3(i, alts[i+(j+1)*z], j+1));
+                    mMap.addPoint(vec3(i+1, alts[i+1+(j+1)*z], j+1));
+                    mMap.addPoint(vec3(i+1, alts[i+1+j*z], j));
                 }
             }
         }
@@ -61,13 +75,9 @@ namespace __game__ {
                 for (int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
                     points.push_back(std::make_pair(doc["roads"][i]["spine"][j].GetDouble(), doc["roads"][i]["spine"][++j].GetDouble()));
                 }
-                rVal->roads.push_back(cRoad(doc["roads"][i]["width"].GetDouble(), points));
+                this->ROOT->addChild(new cRoad(doc["roads"][i]["width"].GetDouble(), points, alts, width));
             }
         }
-        if (doc.HasMember("starting")) {
-            rVal->startLoc = vec3(doc["starting"]["x"].GetDouble(), doc["starting"]["y"].GetDouble(), doc["starting"]["z"].GetDouble());
-        }
-        return rVal;
+        /* Default start at 0, 0, h, where h is the altitude of 0, 0*/
     }
-
 }

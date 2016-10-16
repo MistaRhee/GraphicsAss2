@@ -19,4 +19,8 @@ namespace __game__ {
         }
     }
 
+    void cTree::render() {
+
+    }
+
 }

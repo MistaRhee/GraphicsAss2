@@ -99,7 +99,7 @@ namespace __game__ {
         glLoadIdentity();
         /* Set the perspective camera. */
 //TODO: Tweak numbers to make stuff look pretty
-        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0, 10);
+        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0, 2); //Can see two "chunks" above
 
         err = glGetError();
         if (err != GL_NO_ERROR) {
@@ -158,6 +158,7 @@ namespace __game__ {
     }
 
     void cMain::run() {
+        loadMap("system/maps/test1.map");
         uint32_t startTime = SDL_GetTicks();
         const uint32_t FRAME_CAP = 60 / 1000; //Fixed at 60 FPS 'cus I'm too lazy to do frame independant movement (Bethesda-esqe movement)
 

@@ -9,6 +9,7 @@ namespace __game__ {
 
     cObject::cObject(cObject* parent) : cObject() {
         this->parent = parent;
+        this->parent->addChild(this);
     }
 
     cObject::cObject(vec3 t, vec3 r, double s) : cObject() {

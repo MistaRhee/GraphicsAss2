@@ -58,6 +58,8 @@ namespace __game__ {
         double scale; //Everything can only be scaled in a nice way because reasons.
 
     };
+    
+    /* Assignment specific stuff */
 
     class cMap : public cObject {
     public:
@@ -66,11 +68,10 @@ namespace __game__ {
 
     class cRoad : public cObject {
     public:
-        cRoad(double, double, double);
-        cRoad(double, std::vector<std::pair<double, double> >);
+        cRoad(double, std::vector<std::pair<double, double> >, std::vector<double>, double);
         
         double getWidth();
-        void addSegment(std::pair<double, double> start, std::pair<double, double> control, std::pair<double, double> end); //Starts at A, interpolates B/C
+        void addSegment(std::pair<double, double>, std::pair<double, double>, std::pair<double, double>, std::vector<double>, double); //Starts at A, interpolates B/C
 
     private:
         double width;
@@ -80,6 +81,8 @@ namespace __game__ {
     class cTree : public cObject {
     public:
         cTree(double, double, double);
+
+        void render() override;
     private:
         void addPoints(double); //Proposed heights, will be built when started
 
