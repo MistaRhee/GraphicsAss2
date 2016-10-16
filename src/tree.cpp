@@ -16,6 +16,7 @@ namespace __game__ {
         for (int i = 0; i < 64; i++) {
             double theta = (2 * M_PI) * i / 64;
             /* Points go from 0 -> height*/
+            /* Render Bottom L -> R, Top R->L */
         }
     }
 
