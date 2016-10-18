@@ -32,7 +32,13 @@ namespace __game__ {
         if (!hidden) {
             glBegin(glFlag);
             {
-                for (auto p : this->points) {
+                if (this->normals.size() == this->points.size()) {
+                    for (int i = 0; i < this->points.size(); i++) {
+                        glNormal3d(this->normals[i].x, this->normals[i].y, this->normals[i].z);
+                        glVertex3d(this->points[i].x, this->points[i].y, this->points[i].z);
+                    }
+                }
+                else for (auto p : this->points) {
                     glVertex3d(p.x, p.y, p.z);
                 }
             }

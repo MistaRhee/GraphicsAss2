@@ -49,6 +49,7 @@ namespace __game__ {
 
         uint32_t glFlag;
         std::vector<vec3> points;
+        std::vector<vec3> normals; //TO ONLY BE USED WITH VERTEX NORMALS (otherwise I will emasculate you, Geoff.
 
         std::vector<cObject*> children;
 
@@ -87,6 +88,7 @@ namespace __game__ {
         void addPoints(double); //Proposed heights, will be built when started
 
         std::pair<double, double> location;
+        double height;
 
     };
 
