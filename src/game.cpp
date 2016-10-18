@@ -142,6 +142,16 @@ namespace __game__ {
         }
 
         glEnable(GL_LIGHT0); //Will be used for sunlight, specific point lights will have to wait.
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        glEnable(GL_NORMALIZE);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
     }
 
     void cMain::destroyGL() {

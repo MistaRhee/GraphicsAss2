@@ -30,6 +30,10 @@ struct vec3 {
         return vec3(this->y*rhs.z - this->z*rhs.y, this->z*rhs.x - this->x*rhs.z, this->x*rhs.y - this->y*rhs.x);
     }
 
+    friend vec3 operator*(vec3 lhs, const vec3& rhs) {
+        return lhs *= rhs;
+    }
+
     friend vec3 operator+(vec3 lhs, const vec3& rhs) {
         return lhs += rhs;
     }
