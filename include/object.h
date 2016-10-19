@@ -20,6 +20,7 @@ namespace __game__ {
         cObject(cObject*);
         cObject(vec3, vec3, double);
         cObject(std::vector<vec3>);
+        cObject(std::vector<vec3>, std::vector<vec3>);
         virtual void render();
 
         vec3 getPoint(int);
@@ -29,6 +30,7 @@ namespace __game__ {
 
         void addChild(cObject*);
         void addPoint(vec3);
+        void addPoint(vec3, vec3); //Point, normal
 
         /* All rotations are around axis. Be nice. GEOFF THAT MEANS YOU */
         /* Sets the parent nicely without changing the global position */
@@ -59,7 +61,7 @@ namespace __game__ {
         double scale; //Everything can only be scaled in a nice way because reasons.
 
     };
-    
+
     /* Assignment specific stuff */
 
     class cMap : public cObject {
@@ -87,9 +89,10 @@ namespace __game__ {
     private:
         void addPoints(double); //Proposed heights, will be built when started
 
-        std::pair<double, double> location;
-        double height;
-
+        /* Actually just gonna neck myself for being so gosh darned stupid -_- */
+        cObject* mCylinder;
+        cObject* mSphere;
+        
     };
 
 }

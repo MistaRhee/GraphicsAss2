@@ -22,6 +22,10 @@ namespace __game__ {
         this->points = std::vector<vec3>(points);
     }
 
+    cObject::cObject(std::vector<vec3> points, std::vector<vec3> normals) : cObject() {
+        this->points = std::vector<vec3>(points);
+    }
+
     void cObject::render() {
         glPushMatrix();
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
@@ -56,6 +60,11 @@ namespace __game__ {
 
     void cObject::addPoint(vec3 p) {
         this->points.push_back(p);
+    }
+
+    void cObject::addPoint(vec3 p, vec3 n) {
+        this->points.push_back(p);
+        this->normals.push_back(n);
     }
 
     void cObject::setPoint(int index, vec3 p) {

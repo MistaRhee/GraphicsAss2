@@ -66,7 +66,24 @@ namespace __game__ {
         }
         if (doc.HasMember("trees")) {
             for (int i = 0; i < doc["trees"].Size(); i++) {
-                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(), ));
+                double fx = floor(doc["trees"][i]["x"].GetDouble());
+                double fz = floor(doc["trees"][i]["z"].GetDouble());
+                double cx = ceil(doc["trees"][i]["x"].GetDouble());
+                double cz = ceil(doc["trees"][i]["z"].GetDouble());
+                double width = doc["width"].GetInt();
+                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
+                                               std::max(
+                                                   alts[fx + fz*width],
+                                                   std::max(
+                                                       alts[fx + cz*width],
+                                                       std::max(
+                                                           alts[cx + fx*width],
+                                                           alts[cx + cz*width]
+                                                           )
+                                                       )
+                                                   ) //min height is the max of the 4 points around it
+                                               ));
+                /* Side note: Definitely not bad code right? ... right? */
             }
         }
         if (doc.HasMember("roads")) {
