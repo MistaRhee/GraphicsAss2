@@ -5,6 +5,9 @@ namespace __game__ {
     cObject::cObject() {
         this->glFlag = GL_TRIANGLE_FAN;
         this->hidden = false;
+        this->translation = vec3(0, 0, 0);
+        this->rotation = vec3(0, 0, 0);
+        this->scale = 0;
     }
 
     cObject::cObject(cObject* parent) : cObject() {
@@ -27,6 +30,8 @@ namespace __game__ {
     }
 
     void cObject::render() {
+        fprintf(stdout, "Rendering %s \n", this->name.c_str());
+        glMatrixMode(GL_MODELVIEW_MATRIX);
         glPushMatrix();
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
         glRotated(this->rotation.x, 1, 0, 0);

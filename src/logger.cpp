@@ -63,6 +63,16 @@ inline void createFolder(const std::string& dirName){
 }
 #endif
 
+inline bool fileExists (const std::string& name){
+    if(FILE *file = fopen(name.c_str(), "r")){
+        fclose(file);
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 namespace __logger{
 
     inline std::string currentDateTime(){
@@ -93,15 +103,22 @@ namespace __logger{
         /* Check if there is a folder in the location -> ensure that the folder exists */
         std::string tempStr;
         this->count = 0;
-        for(unsigned int i = 0; i < fileLoc.size(); i++){
-            if(fileLoc[i] == '/'){
-                /* There is folder */
-                if(!dirExists(tempStr)){
-                    if(!tempStr.empty()) createFolder(tempStr);
+        if(fileExists(fileLoc)){
+            /* Rename file to be backup */
+            if(rename(fileLoc.c_str(), (fileLoc + std::string(".old")).c_str())) fprintf(stderr, "Renaming failed! Overwriting old file \n");
+            else fprintf(stderr, "Previous log was successfully renamed to <prev>.old \n");
+        }
+        else{
+            for(unsigned int i = 0; i < fileLoc.size(); i++){
+                if(fileLoc[i] == '/'){
+                    /* There is folder */
+                    if(!dirExists(tempStr)){
+                        if(!tempStr.empty()) createFolder(tempStr);
+                    }
                 }
-            }
-            else{
-                tempStr += fileLoc[i];
+                else{
+                    tempStr += fileLoc[i];
+                }
             }
         }
         tempStr.clear();
@@ -114,7 +131,6 @@ namespace __logger{
 #ifndef __LOGGER_NOTHREAD__
         this->dead = 0;
 #endif
-        printf("Finished initializing");
     }
 
     cLogger::~cLogger(){

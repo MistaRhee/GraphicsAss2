@@ -10,6 +10,7 @@ namespace __game__ {
         this->currPawn = NULL;
         
         this->ROOT = new cObject();
+        this->ROOT->setName("ROOT");
         this->ROOT->hidden = true;
         this->mCamera = new cCamera(NULL, vec3(0, 0, 0), vec3(0, 0, 0), 0); 
         this->mCamera->setParent(this->ROOT); //EVEN MORE ResidentSleeper
@@ -17,8 +18,8 @@ namespace __game__ {
         parseArgs(argc, argv);
 
         this->mLog = new __logger::cLogger("logs/game.log");
-        this->mLog->start();
-        this->mLog->log("[game.cpp] System: Logging started.");
+        this->mLog->start().detach();
+        this->mLog->log(std::string("[game.cpp] System: Logging started."));
 
         initSDL();
         initGL();

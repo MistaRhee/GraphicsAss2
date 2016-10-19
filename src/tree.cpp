@@ -42,9 +42,11 @@ namespace __game__ {
         }
 
         this->mCylinder = new cObject(cylinderP, cylinderN);
+        this->mCylinder->setName("Tree Trunk");
         this->mCylinder->setParent(this);
         this->mSphere = new cObject(this);
         this->mSphere->translate(vec3(0, 0, h)); //Move the sphere up
+        this->mSphere->setName("Tree Leaves");
         
         for (int i = 0; i < 32; i++) {
             double theta = 2 * M_PI*i / 32;

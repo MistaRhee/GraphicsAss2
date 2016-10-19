@@ -48,41 +48,46 @@ namespace __game__ {
         }
         std::vector<double> alts; //HACKS!!!
         if (doc.HasMember("altitude")) {
-            for (unsigned int i = 0; i < doc["altitude"].Size(); i++) {
-                alts.push_back(doc["altitudes"][i].GetDouble());
+            const rapidjson::Value& alt = doc["altitude"];
+            for (unsigned int i = 0; i < alt.Size(); i++) {
+                alts.push_back(alt[i].GetDouble());
             }
             //TODO: Generate points (doing the extra vertex in the center trick)
-            cObject mMap(this->ROOT);
+            cObject* mMap = new cObject(this->ROOT);
+            mMap->setName("mMap");
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap.addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, j+0.5)); //Middle point is interpolated from the corners
-                    mMap.addPoint(vec3(i, alts[i+j*z], j));
-                    mMap.addPoint(vec3(i+1, alts[i+1+j*z], j));
-                    mMap.addPoint(vec3(i, alts[i+(j+1)*z], j+1));
-                    mMap.addPoint(vec3(i+1, alts[i+1+(j+1)*z], j+1));
+                    mMap->addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, j+0.5)); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, alts[i+j*z], j));
+                    mMap->addPoint(vec3(i+1, alts[i+1+j*z], j));
+                    mMap->addPoint(vec3(i, alts[i+(j+1)*z], j+1));
+                    mMap->addPoint(vec3(i+1, alts[i+1+(j+1)*z], j+1));
                 }
             }
         }
         if (doc.HasMember("trees")) {
-            for (unsigned int i = 0; i < doc["trees"].Size(); i++) {
-                int fx = floor(doc["trees"][i]["x"].GetDouble());
-                int fz = floor(doc["trees"][i]["z"].GetDouble());
-                int cx = ceil(doc["trees"][i]["x"].GetDouble());
-                int cz = ceil(doc["trees"][i]["z"].GetDouble());
+            const rapidjson::Value& tree = doc["trees"];
+            for (unsigned int i = 0; i < tree.Size(); i++) {
+                int fx = floor(tree[i]["x"].GetDouble());
+                int fz = floor(tree[i]["z"].GetDouble());
+                int cx = ceil(tree[i]["x"].GetDouble());
+                int cz = ceil(tree[i]["z"].GetDouble());
                 int width = doc["width"].GetInt();
-                this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
-                                               std::max(
-                                                   alts[fx + fz*width],
-                                                   std::max(
-                                                       alts[fx + cz*width],
-                                                       std::max(
-                                                           alts[cx + fx*width],
-                                                           alts[cx + cz*width]
-                                                           )
-                                                       )
-                                                   ) //min height is the max of the 4 points around it
-                                               ));
+                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
+                                         std::max(
+                                             alts[fx + fz*width],
+                                             std::max(
+                                                 alts[fx + cz*width],
+                                                 std::max(
+                                                     alts[cx + fx*width],
+                                                     alts[cx + cz*width]
+                                                 )
+                                             )
+                                         ) //min height is the max of the 4 points around it
+                );
+                mTree->setName("Tree");
+                this->ROOT->addChild(mTree);
                 /* Side note: Definitely not bad code right? ... right? */
             }
         }
@@ -92,7 +97,9 @@ namespace __game__ {
                 for (unsigned int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
                     points.push_back(std::make_pair(doc["roads"][i]["spine"][j].GetDouble(), doc["roads"][i]["spine"][++j].GetDouble()));
                 }
-                this->ROOT->addChild(new cRoad(doc["roads"][i]["width"].GetDouble(), points, alts, width));
+                cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, alts, width);
+                mRoad->setName("road");
+                this->ROOT->addChild(mRoad);
             }
         }
         /* Default start at 0, 0, h, where h is the altitude of 0, 0*/

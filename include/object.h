@@ -36,6 +36,14 @@ namespace __game__ {
         /* Sets the parent nicely without changing the global position */
         void setParent(cObject*);
 
+        std::string getName() {
+            return this->name;
+        }
+
+        void setName(std::string n) {
+            this->name = n;
+        }
+
         virtual void setRotation(vec3);
         virtual void setTranslation(vec3);
         virtual void setScale(double);
@@ -59,6 +67,8 @@ namespace __game__ {
         vec3 translation;
         vec3 rotation;
         double scale; //Everything can only be scaled in a nice way because reasons.
+
+        std::string name;
 
     };
 
