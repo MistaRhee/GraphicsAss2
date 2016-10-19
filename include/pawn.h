@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SDL_opengl.h>
 #include <GL/glew.h>
+#include <SDL_opengl.h>
 #include <map>
 #include <string>
 
@@ -12,7 +12,7 @@ namespace __game__ {
     class cCamera : public cObject {
         /* Attach it to a pawn, just controls the direction I'm looking at */
     public:
-        cCamera(cObject*, vec3, double, double); //Cameras are "attached" to pawn in fixed position
+        cCamera(cObject*, vec3, vec3, double); //Cameras are "attached" to pawn in fixed position
         ~cCamera();
         bool isThirdPerson;
 

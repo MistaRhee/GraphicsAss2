@@ -5,6 +5,11 @@
 
 int main(int argc, char** argv) {
     __game__::cMain mGame(argc, argv);
-    mGame.run();
+    try {
+        mGame.run();
+    }
+    catch (...) {
+        //Nothing ATM
+    }
     return EXIT_SUCCESS;
 }

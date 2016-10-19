@@ -85,7 +85,6 @@ namespace __game__ {
     public:
         cTree(double, double, double);
 
-        void render() override;
     private:
         void addPoints(double); //Proposed heights, will be built when started
 

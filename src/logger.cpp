@@ -93,7 +93,7 @@ namespace __logger{
         /* Check if there is a folder in the location -> ensure that the folder exists */
         std::string tempStr;
         this->count = 0;
-        for(int i = 0; i < fileLoc.size(); i++){
+        for(unsigned int i = 0; i < fileLoc.size(); i++){
             if(fileLoc[i] == '/'){
                 /* There is folder */
                 if(!dirExists(tempStr)){
@@ -114,6 +114,7 @@ namespace __logger{
 #ifndef __LOGGER_NOTHREAD__
         this->dead = 0;
 #endif
+        printf("Finished initializing");
     }
 
     cLogger::~cLogger(){

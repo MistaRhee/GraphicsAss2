@@ -4,7 +4,7 @@ namespace __game__ {
 
     cActor::cActor() {
         this->translation = vec3(0, 0, 0);
-        this->rotation = 0;
+        this->rotation = vec3(0, 0, 0);
         this->scale = 1;
         this->parent = NULL;
     }

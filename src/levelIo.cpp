@@ -32,14 +32,14 @@ namespace __game__ {
         if (doc.HasMember("depth")) this->depth = doc["depth"].GetInt();
         if (doc.HasMember("sunlight")) {
             //TODO: Tweak numbers to make it look good.
-            float globalAmb[] = { 0.2, 0.2, 0.2, 0.1 };
+            float globalAmb[] = { 0.2f, 0.2f, 0.2f, 0.1f };
             glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
 
-            float localAmb[] = {0.1, 0.1, 0.1, 1};
-            float localDiff[] = {1, 1, 1, 1};
-            float localSpec[] = {1, 1, 1, 1};
+            float localAmb[] = {0.1f, 0.1f, 0.1f, 1.0f};
+            float localDiff[] = {1.0f, 1.0f, 1.0f, 1.0f};
+            float localSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
             /* FIXME: Unfuck this shit */
-            float position[] = { doc["sunlight"][0].GetDouble(), doc["sunlight"][1].GetDouble(), doc["sunlight"][2].GetDouble(), 1 };
+            float position[] = { doc["sunlight"][0].GetFloat(), doc["sunlight"][1].GetFloat(), doc["sunlight"][2].GetFloat(), 1.0f };
 
             glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
             glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
@@ -48,7 +48,7 @@ namespace __game__ {
         }
         std::vector<double> alts; //HACKS!!!
         if (doc.HasMember("altitude")) {
-            for (int i = 0; i < doc["altitude"].Size(); i++) {
+            for (unsigned int i = 0; i < doc["altitude"].Size(); i++) {
                 alts.push_back(doc["altitudes"][i].GetDouble());
             }
             //TODO: Generate points (doing the extra vertex in the center trick)
@@ -65,12 +65,12 @@ namespace __game__ {
             }
         }
         if (doc.HasMember("trees")) {
-            for (int i = 0; i < doc["trees"].Size(); i++) {
-                double fx = floor(doc["trees"][i]["x"].GetDouble());
-                double fz = floor(doc["trees"][i]["z"].GetDouble());
-                double cx = ceil(doc["trees"][i]["x"].GetDouble());
-                double cz = ceil(doc["trees"][i]["z"].GetDouble());
-                double width = doc["width"].GetInt();
+            for (unsigned int i = 0; i < doc["trees"].Size(); i++) {
+                int fx = floor(doc["trees"][i]["x"].GetDouble());
+                int fz = floor(doc["trees"][i]["z"].GetDouble());
+                int cx = ceil(doc["trees"][i]["x"].GetDouble());
+                int cz = ceil(doc["trees"][i]["z"].GetDouble());
+                int width = doc["width"].GetInt();
                 this->ROOT->addChild(new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
                                                std::max(
                                                    alts[fx + fz*width],
@@ -87,9 +87,9 @@ namespace __game__ {
             }
         }
         if (doc.HasMember("roads")) {
-            for (int i = 0; i < doc["roads"].Size(); i++) {
+            for (unsigned int i = 0; i < doc["roads"].Size(); i++) {
                 std::vector<std::pair<double, double> > points;
-                for (int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
+                for (unsigned int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
                     points.push_back(std::make_pair(doc["roads"][i]["spine"][j].GetDouble(), doc["roads"][i]["spine"][++j].GetDouble()));
                 }
                 this->ROOT->addChild(new cRoad(doc["roads"][i]["width"].GetDouble(), points, alts, width));

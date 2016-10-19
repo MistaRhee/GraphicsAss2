@@ -11,13 +11,14 @@ namespace __game__ {
         
         this->ROOT = new cObject();
         this->ROOT->hidden = true;
-        this->mCamera = new cCamera(NULL, vec3(0, 0, 0), 0, 0); 
+        this->mCamera = new cCamera(NULL, vec3(0, 0, 0), vec3(0, 0, 0), 0); 
         this->mCamera->setParent(this->ROOT); //EVEN MORE ResidentSleeper
 
         parseArgs(argc, argv);
 
         this->mLog = new __logger::cLogger("logs/game.log");
         this->mLog->start();
+        this->mLog->log("[game.cpp] System: Logging started.");
 
         initSDL();
         initGL();
@@ -26,6 +27,7 @@ namespace __game__ {
     cMain::~cMain() {
         destroyGL();
         destroySDL();
+        this->mLog->log("[game.cpp] System: Killing log.");
         this->mLog->kill();
         this->mLog->done.lock();
         this->mLog->done.unlock();
@@ -68,6 +70,7 @@ namespace __game__ {
     }
 
     void cMain::initSDL() {
+        this->debugInformation("[game.cpp] Info: Initializing SDL");
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
             this->debugError(std::string("[game.cpp] Error: Failed to load SDL! SDL_Error: ") + std::string(SDL_GetError()));
         }
@@ -82,9 +85,11 @@ namespace __game__ {
         if (this->mWindow == NULL) {
             this->debugError(std::string("[game.cpp] Error: Failed to crete window! SDL_Error: ") + std::string(SDL_GetError()));
         }
+        this->debugInformation("[game.cpp] Info: Finished initializing SDL");
     }
 
     void cMain::initGL() {
+        this->debugInformation("[game.cpp] Info: Initializing GL");
         this->mContext = SDL_GL_CreateContext(mWindow);
         if (mContext == NULL) {
             this->debugError(std::string("[game.cpp] Error: OpenGL Context couldn't be created! SDL_Error: ") + std::string(SDL_GetError()));
@@ -152,6 +157,7 @@ namespace __game__ {
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
+        this->debugInformation("[game.cpp] Info: Finished initializing GL");
     }
 
     void cMain::destroyGL() {
@@ -168,16 +174,19 @@ namespace __game__ {
     }
 
     void cMain::run() {
+        this->debugInformation("[game.cpp] Info: Loading map");
         loadMap("system/maps/test1.map");
         uint32_t startTime = SDL_GetTicks();
         const uint32_t FRAME_CAP = 60 / 1000; //Fixed at 60 FPS 'cus I'm too lazy to do frame independant movement (Bethesda-esqe movement)
 
+        this->debugInformation("[game.cpp] Info: Starting game loop");
         while (this->isAlive) {
             update();
             processEvents();
             render();
             if ((SDL_GetTicks() - startTime) < FRAME_CAP) SDL_Delay(abs((int)(FRAME_CAP - SDL_GetTicks() + startTime)));
         }
+        this->debugInformation("[game.cpp] Info: Exiting game loop");
     }
 
     void cMain::render() {
