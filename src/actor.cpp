@@ -9,13 +9,6 @@ namespace __game__ {
         this->parent = NULL;
     }
 
-    cActor::cActor(cObject* parent) : cObject(parent) {
-        this->translation = vec3(0, 0, 0);
-        this->rotation = vec3(0, 0, 0);
-        this->scale = 1;
-        this->parent = parent;
-    }
-
     cActor::~cActor() {}
 
     void cActor::update() {
@@ -29,4 +22,5 @@ namespace __game__ {
     void cActor::setSpeed(vec3 a) {
         this->velocity = a;
     }
+
 }

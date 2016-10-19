@@ -9,7 +9,6 @@ namespace __game__ {
 
     public:
         cActor();
-        cActor(cObject*);
         ~cActor();
 
         void update();

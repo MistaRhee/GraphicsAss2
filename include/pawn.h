@@ -9,7 +9,7 @@
 
 namespace __game__ {
 
-    class cCamera : public cObject {
+    class cCamera : public cActor {
         /* Attach it to a pawn, just controls the direction I'm looking at */
     public:
         cCamera(cObject*, vec3, vec3, double); //Cameras are "attached" to pawn in fixed position
@@ -17,16 +17,8 @@ namespace __game__ {
         bool isThirdPerson;
 
         void render() override;
+        void render(__logger::cLogger*) override;
 
-        /* Removing any possibility of me being a retard */
-        void translate(vec3) override {}
-        void rotate(double, vec3) override {}
-        void rescale(double) override {} //Why would you ever scale a camera???!?
-
-        void setTranslation(vec3) override {}
-        void setRotation(vec3) override {}
-        void setScale(double) override {}
-        
         void setThirdPersonDist(double);
     private:
         double thirdPersonDist;

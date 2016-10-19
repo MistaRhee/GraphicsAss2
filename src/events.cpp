@@ -73,15 +73,44 @@ namespace __game__ {
         /* Hardcoding in the movement keys ATM due to laziness */
         switch (key) {
             case SDLK_w:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->move(vec3(0, 0, 0.2));
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
+                }
+                else {
+                    if(isDown) this->currPawn->move(vec3(0, 0, 0.2));
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
+                }
                 break;
 
             case SDLK_s:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->move(vec3(0, 0, -0.2));
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
+                }
+                else {
+                    if(isDown) this->currPawn->move(vec3(0, 0, -0.2));
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
+                }
                 break;
 
             case SDLK_a:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->rotate(10, vec3(0, 0, 0.2));
+                }
+                else {
+                    if(isDown) this->currPawn->rotate(10, vec3(0, 0, 0.2));
+                }
                 break;
 
             case SDLK_d:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->rotate(-10, vec3(0, 0, 0.2));
+                }
+                else {
+                    if(isDown) this->currPawn->rotate(-10, vec3(0, 0, 0.2));
+                }
+                break;
                 break;
 
             case SDLK_SPACE: //jump

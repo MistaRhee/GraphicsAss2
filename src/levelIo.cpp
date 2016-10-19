@@ -52,7 +52,6 @@ namespace __game__ {
             for (unsigned int i = 0; i < alt.Size(); i++) {
                 alts.push_back(alt[i].GetDouble());
             }
-            //TODO: Generate points (doing the extra vertex in the center trick)
             cObject* mMap = new cObject(this->ROOT);
             mMap->setName("mMap");
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {

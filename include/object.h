@@ -9,6 +9,7 @@
 #include <SDL_opengl.h>
 
 #include "globals.h"
+#include "logger.hpp"
 
 namespace __game__ {
 
@@ -19,9 +20,11 @@ namespace __game__ {
         ~cObject() {}
         cObject(cObject*);
         cObject(vec3, vec3, double);
+        cObject(cObject*, vec3, vec3, double);
         cObject(std::vector<vec3>);
         cObject(std::vector<vec3>, std::vector<vec3>);
         virtual void render();
+        virtual void render(__logger::cLogger*);
 
         vec3 getPoint(int);
         void setPoint(int, vec3);

@@ -12,10 +12,16 @@ namespace __game__ {
 
     cObject::cObject(cObject* parent) : cObject() {
         this->parent = parent;
-        this->parent->addChild(this);
+        parent->addChild(this);
     }
 
     cObject::cObject(vec3 t, vec3 r, double s) : cObject() {
+        this->translation = t;
+        this->rotation = r;
+        this->scale = s;
+    }
+
+    cObject::cObject(cObject* parent, vec3 t, vec3 r, double s) : cObject(parent) {
         this->translation = t;
         this->rotation = r;
         this->scale = s;
@@ -29,9 +35,38 @@ namespace __game__ {
         this->points = std::vector<vec3>(points);
     }
 
+    void cObject::render(__logger::cLogger* mLog) {
+        mLog->log("[object.cpp] Info: Rendering object " + this->name);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glTranslated(this->translation.x, this->translation.y, this->translation.z);
+        glRotated(this->rotation.x, 1, 0, 0);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.z, 0, 0, 1);
+        glScaled(this->scale, this->scale, this->scale);
+        if (!hidden) {
+            glBegin(glFlag);
+            {
+                if (this->normals.size() == this->points.size()) {
+                    for (int i = 0; i < this->points.size(); i++) {
+                        glNormal3d(this->normals[i].x, this->normals[i].y, this->normals[i].z);
+                        glVertex3d(this->points[i].x, this->points[i].y, this->points[i].z);
+                    }
+                }
+                else for (auto p : this->points) {
+                    glVertex3d(p.x, p.y, p.z);
+                }
+            }
+            glEnd();
+        }
+        for (auto ch : this->children) {
+            ch->render(mLog);
+        }
+        glPopMatrix();
+    }
+
     void cObject::render() {
-        fprintf(stdout, "Rendering %s \n", this->name.c_str());
-        glMatrixMode(GL_MODELVIEW_MATRIX);
+        glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
         glRotated(this->rotation.x, 1, 0, 0);
@@ -86,8 +121,8 @@ namespace __game__ {
 
     void cObject::setParent(cObject* p) { //Should never be needed -> Only to be abused by me later -_-
         this->parent = parent;
+        p->addChild(this);
         /* Do changes to translation here*/
-        //TODO: Finish this when I actually have time
     }
 
     void cObject::setRotation(vec3 r) {

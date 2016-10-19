@@ -8,14 +8,6 @@ namespace __game__ {
         this->mWindow = NULL;
         this->mContext = NULL;
         this->currPawn = NULL;
-        
-        this->ROOT = new cObject();
-        this->ROOT->setName("ROOT");
-        this->ROOT->hidden = true;
-        this->mCamera = new cCamera(NULL, vec3(0, 0, 0), vec3(0, 0, 0), 0); 
-        this->mCamera->setParent(this->ROOT); //EVEN MORE ResidentSleeper
-
-        parseArgs(argc, argv);
 
         this->mLog = new __logger::cLogger("logs/game.log");
         this->mLog->start().detach();
@@ -23,6 +15,16 @@ namespace __game__ {
 
         initSDL();
         initGL();
+        
+        this->ROOT = new cObject();
+        this->ROOT->setName("ROOT");
+        this->ROOT->hidden = true;
+        this->mCamera = new cCamera(this->ROOT, vec3(0, 0, 0), vec3(0, 0, 0), 0); 
+        this->mCamera->setName("Camera");
+
+        this->mActors.insert(std::make_pair("Camera", this->mCamera));
+
+        parseArgs(argc, argv);
     }
 
     cMain::~cMain() {
@@ -101,29 +103,29 @@ namespace __game__ {
         }
 
         GLenum err = GL_NO_ERROR;
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        /* Set the perspective camera. */
-//TODO: Tweak numbers to make stuff look pretty
-        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0, 2); //Can see two "chunks" above
-
-        err = glGetError();
-        if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
-        }
-
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
+        glMatrixMode(GL_PROJECTION);
+        /* Set the perspective camera. */
+        glLoadIdentity();
+//TODO: Tweak numbers to make stuff look pretty
+        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.5, 2); //Can see two "chunks" above
+
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 0. Error: ") + std::to_string(err));//+ std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
-        glClearColor(0.f, 0.f, 0.f, 1.f); //Black clear colour
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 1. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        glClearColor(1.f, 1.f, 1.f, 1.f); //Black clear colour
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 2. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         /* Back face culling */
@@ -131,33 +133,34 @@ namespace __game__ {
         glCullFace(GL_BACK);
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 3. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         /* Enable depth testing */
         glEnable(GL_DEPTH_TEST);
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 4. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         glEnable(GL_LIGHTING);
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 5. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         glEnable(GL_LIGHT0); //Will be used for sunlight, specific point lights will have to wait.
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 6. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         glEnable(GL_NORMALIZE);
         err = glGetError();
         if (err != GL_NO_ERROR) {
-            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 7. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
+
         this->debugInformation("[game.cpp] Info: Finished initializing GL");
     }
 
@@ -199,7 +202,8 @@ namespace __game__ {
         glLoadIdentity();
         /* KappaPride */
 
-        this->ROOT->render();
+        if(this->debugLevel < 2) this->ROOT->render();
+        else this->ROOT->render(this->mLog);
 
         /* End rendering components */
         /* Update the screen */
