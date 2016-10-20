@@ -52,7 +52,7 @@ namespace __game__ {
             for (unsigned int i = 0; i < alt.Size(); i++) {
                 alts.push_back(alt[i].GetDouble());
             }
-            cObject* mMap = new cObject(this->ROOT);
+            cMap* mMap = new cMap(this->ROOT);
             mMap->setName("mMap");
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {

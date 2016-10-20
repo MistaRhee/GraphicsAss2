@@ -24,13 +24,8 @@ namespace __game__ {
 
     void cCamera::render() {
         glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glTranslated(this->translation.x, this->translation.y, this->translation.z);
-        glRotated(this->rotation.x, 1, 0, 0);
-        glRotated(this->rotation.y, 0, 1, 0);
-        glRotated(this->rotation.z, 0, 0, 1);
-        glScaled(this->scale, this->scale, this->scale);
 
+        loadMatrix();
         double mMatrix[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);
 
@@ -51,18 +46,13 @@ namespace __game__ {
             mMatrix[8], mMatrix[9], mMatrix[10],
             0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
         );
-        glPopMatrix();
     }
 
     void cCamera::render(__logger::cLogger* mLog) {
         mLog->log("[object.cpp] Info: Rendering object " + this->name);
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
-        glTranslated(this->translation.x, this->translation.y, this->translation.z);
-        glRotated(this->rotation.x, 1, 0, 0);
-        glRotated(this->rotation.y, 0, 1, 0);
-        glRotated(this->rotation.z, 0, 0, 1);
-        glScaled(this->scale, this->scale, this->scale);
+        loadMatrix();
 
         double mMatrix[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);

@@ -115,6 +115,7 @@ namespace __game__ {
             glEnd();
         }
         for (auto ch : this->children) {
+            if (ch->getName() == "Camera") continue;
             ch->render();
         }
         glPopMatrix();

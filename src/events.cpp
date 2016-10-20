@@ -75,22 +75,22 @@ namespace __game__ {
         switch (key) {
             case SDLK_w:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(0.2);
+                    if(isDown) this->mCamera->move(0.001);
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(0.2);
+                    if(isDown) this->currPawn->move(0.001);
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_s:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(-0.2);
+                    if(isDown) this->mCamera->move(-0.001);
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(-0.2);
+                    if(isDown) this->currPawn->move(-0.001);
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;

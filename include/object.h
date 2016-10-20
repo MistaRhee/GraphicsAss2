@@ -58,12 +58,13 @@ namespace __game__ {
         virtual void rotate(double, vec3);
         virtual void rescale(double);
 
+        void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
+
         void printDebug();
 
-        bool hidden; //ResidentSleeper
+        bool hidden = 0; //ResidentSleeper
 
     protected:
-        void setGLFlag(uint32_t); //Sets what type of GL Rendering (lines etc.)
 
         uint32_t glFlag;
         std::vector<vec3> points;
@@ -74,7 +75,7 @@ namespace __game__ {
         /* Local translation */
         vec3 translation;
         vec3 rotation;
-        double scale; //Everything can only be scaled in a nice way because reasons.
+        double scale = 1; //Everything can only be scaled in a nice way because reasons.
 
         std::string name;
 
@@ -84,7 +85,9 @@ namespace __game__ {
 
     class cMap : public cObject {
     public:
+        cMap(cObject* parent) : cObject(parent) {}
         void render() override;
+        void render(__logger::cLogger*) override;
     };
 
     class cRoad : public cObject {

@@ -124,7 +124,7 @@ namespace __game__ {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 1. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
-        glClearColor(1.f, 1.f, 1.f, 1.f); //Black clear colour
+        glClearColor(0.f, 0.f, 0.f, 1.f); //Black clear colour
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 2. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
@@ -203,10 +203,11 @@ namespace __game__ {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         /* KappaPride */
+        
+        this->mCamera->render();
 
         if(this->debugLevel < 2) this->ROOT->render();
         else this->ROOT->render(this->mLog);
-
         /* End rendering components */
         /* Update the screen */
         SDL_GL_SwapWindow(this->mWindow);
