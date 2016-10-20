@@ -97,19 +97,19 @@ namespace __game__ {
 
             case SDLK_a:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(10, vec3(0, 0, 1));
+                    if(isDown) this->mCamera->rotate(10, vec3(0, 1, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(10, vec3(0, 0, 1));
+                    if(isDown) this->currPawn->rotate(10, vec3(0, 1, 0));
                 }
                 break;
 
             case SDLK_d:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(-10, vec3(0, 0, 1));
+                    if(isDown) this->mCamera->rotate(-10, vec3(0, 1, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(-10, vec3(0, 0, 1));
+                    if(isDown) this->currPawn->rotate(-10, vec3(0, 1, 0));
                 }
                 break;
 

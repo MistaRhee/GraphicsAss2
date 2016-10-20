@@ -1,5 +1,15 @@
 #include "object.h"
 
+/* 
+Apparently opengl stores the modelview matrix as
+0  4  8  12
+1  5  9  13
+2  6  10 14
+3  7  11 15
+
+Fuck. Everything.
+*/
+
 namespace __game__ {
 
     cObject::cObject() {
@@ -189,7 +199,7 @@ namespace __game__ {
         std::string debug;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                debug += std::to_string(mat[i * 4 + j]) + " ";
+                debug += std::to_string(mat[i + j * 4]) + " ";
             }
             debug += '\n';
         }

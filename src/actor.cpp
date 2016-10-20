@@ -1,5 +1,15 @@
 #include "actor.h"
 
+/* 
+Apparently opengl stores the modelview matrix as
+0  4  8  12
+1  5  9  13
+2  6  10 14
+3  7  11 15
+
+Fuck. Everything.
+*/
+
 namespace __game__ {
 
     cActor::cActor() {
@@ -22,7 +32,7 @@ namespace __game__ {
         this->loadMatrix();
         double mMat[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMat);
-        vec3 dir(mMat[2 * 4 + 0], mMat[2 * 4 + 1], mMat[2 * 4 + 2]); //What's forwards
+        vec3 dir(mMat[8], mMat[9], mMat[10]); //What's forwards
         dir.x *= a;
         dir.y *= a;
         dir.z *= a;
@@ -32,12 +42,13 @@ namespace __game__ {
         std::string debug;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                debug += std::to_string(mMat[i * 4 + j]) + " ";
+                debug += std::to_string(mMat[i + j * 4]) + " ";
             }
             debug += '\n';
         }
 
         fprintf(stdout, "%s \n", debug.c_str());
+        fprintf(stdout, "%.2f %.2f %.2f \n", translation.x, translation.y, translation.z);
     }
 
     void cActor::setSpeed(vec3 a) {

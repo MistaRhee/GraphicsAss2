@@ -1,5 +1,14 @@
 ﻿#include "pawn.h" //Really shouldn't be in here, but I"m lazy
 
+/* 
+Apparently opengl stores the modelview matrix as
+0  4  8  12
+1  5  9  13
+2  6  10 14
+3  7  11 15
+
+Fuck. Everything.
+*/
 
 namespace __game__ {
 
@@ -29,7 +38,7 @@ namespace __game__ {
         std::string debug;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                debug += std::to_string(mMatrix[i * 4 + j]) + " ";
+                debug += std::to_string(mMatrix[i + j*4]) + " ";
             }
             debug += '\n';
         }
@@ -38,8 +47,8 @@ namespace __game__ {
         */
 
         gluLookAt(
-            mMatrix[0 * 4 + 3], mMatrix[1 * 4 + 3], mMatrix[2 * 4 + 3], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯
-            mMatrix[2 * 4 + 0], mMatrix[2 * 4 + 1], mMatrix[2 * 4 + 2],
+            mMatrix[12], mMatrix[13], mMatrix[14], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯
+            mMatrix[8], mMatrix[9], mMatrix[10],
             0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
         );
         glPopMatrix();
@@ -62,7 +71,7 @@ namespace __game__ {
         std::string debug;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                debug += std::to_string(mMatrix[i * 4 + j]) + " ";
+                debug += std::to_string(mMatrix[i + j*4]) + " ";
             }
             debug += '\n';
         }
@@ -71,8 +80,8 @@ namespace __game__ {
         */
 
         gluLookAt(
-            mMatrix[0 * 4 + 3], mMatrix[1 * 4 + 3], mMatrix[2 * 4 + 3], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯
-            mMatrix[2 * 4 + 0], mMatrix[2 * 4 + 1], mMatrix[2 * 4 + 2],
+            mMatrix[12], mMatrix[13], mMatrix[14], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯
+            mMatrix[8], mMatrix[9], mMatrix[10],
             0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
         );
         glPopMatrix();
