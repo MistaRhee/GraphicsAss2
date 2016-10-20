@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 
+#include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
 
@@ -39,6 +40,8 @@ namespace __game__ {
         /* Sets the parent nicely without changing the global position */
         void setParent(cObject*);
 
+        void loadMatrix();
+
         std::string getName() {
             return this->name;
         }
@@ -54,6 +57,8 @@ namespace __game__ {
         virtual void translate(vec3);
         virtual void rotate(double, vec3);
         virtual void rescale(double);
+
+        void printDebug();
 
         bool hidden; //ResidentSleeper
 

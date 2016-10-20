@@ -22,8 +22,20 @@ namespace __game__ {
         glRotated(this->rotation.z, 0, 0, 1);
         glScaled(this->scale, this->scale, this->scale);
 
-        double* mMatrix = NULL;
-        glGetDoublev(GL_MODELVIEW, mMatrix);
+        double mMatrix[16];
+        glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);
+
+        /*
+        std::string debug;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                debug += std::to_string(mMatrix[i * 4 + j]) + " ";
+            }
+            debug += '\n';
+        }
+
+        fprintf(stdout, "%s \n", debug.c_str());
+        */
 
         gluLookAt(
             mMatrix[0 * 4 + 3], mMatrix[1 * 4 + 3], mMatrix[2 * 4 + 3], //Formatting for easier "2d"-iness ¯\_(ツ)_/¯

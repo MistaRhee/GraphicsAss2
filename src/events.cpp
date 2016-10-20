@@ -71,49 +71,50 @@ namespace __game__ {
 
     void cMain::handleUserKeyboard(SDL_Keycode key, bool isDown, uint32_t modifiers) { //Too lazy to implement frame-independent movement.
         /* Hardcoding in the movement keys ATM due to laziness */
+        /* -.1 y for gravity */
         switch (key) {
             case SDLK_w:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, 0, 0.2));
+                    if(isDown) this->mCamera->move(0.2);
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(0, 0, 0.2));
+                    if(isDown) this->currPawn->move(0.2);
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_s:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, 0, -0.2));
+                    if(isDown) this->mCamera->move(-0.2);
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(0, 0, -0.2));
+                    if(isDown) this->currPawn->move(-0.2);
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_a:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(10, vec3(0, 0, 0.2));
+                    if(isDown) this->mCamera->rotate(10, vec3(0, 0, 1));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(10, vec3(0, 0, 0.2));
+                    if(isDown) this->currPawn->rotate(10, vec3(0, 0, 1));
                 }
                 break;
 
             case SDLK_d:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(-10, vec3(0, 0, 0.2));
+                    if(isDown) this->mCamera->rotate(-10, vec3(0, 0, 1));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(-10, vec3(0, 0, 0.2));
+                    if(isDown) this->currPawn->rotate(-10, vec3(0, 0, 1));
                 }
                 break;
-                break;
 
-            case SDLK_SPACE: //jump
+            case SDLK_SPACE: //debugging stuffs
+                this->mCamera->printDebug();
                 break;
 
             default: //Unhandled key case

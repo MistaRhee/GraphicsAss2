@@ -7,7 +7,8 @@ namespace __game__ {
         this->hidden = false;
         this->translation = vec3(0, 0, 0);
         this->rotation = vec3(0, 0, 0);
-        this->scale = 0;
+        this->scale = 1;
+        this->parent = NULL;
     }
 
     cObject::cObject(cObject* parent) : cObject() {
@@ -33,6 +34,21 @@ namespace __game__ {
 
     cObject::cObject(std::vector<vec3> points, std::vector<vec3> normals) : cObject() {
         this->points = std::vector<vec3>(points);
+    }
+
+    void cObject::loadMatrix() {
+        glMatrixMode(GL_MODELVIEW);
+        if (this->parent == NULL) {
+            glLoadIdentity();
+        }
+        else {
+            this->parent->loadMatrix();
+        }
+        glTranslated(this->translation.x, this->translation.y, this->translation.z);
+        glRotated(this->rotation.x, 1, 0, 0);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.z, 0, 0, 1);
+        glScaled(this->scale, this->scale, this->scale);
     }
 
     void cObject::render(__logger::cLogger* mLog) {
@@ -155,6 +171,31 @@ namespace __game__ {
 
     void cObject::rescale(double s) {
         this->scale += s;
+    }
+
+    void cObject::printDebug() {
+        printf("Name: %s\n", this->name.c_str());
+        printf("Translation: %.2f %.2f %.2f \n", this->translation.x, this->translation.y, this->translation.z);
+        printf("Rotation (x, y, z): %.2f %.2f %.2f \n", this->rotation.x, this->rotation.y, this->rotation.z);
+        printf("Scale: %.2f\n", this->scale);
+        
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        loadMatrix();
+        double mat[16];
+
+        glGetDoublev(GL_MODELVIEW_MATRIX, mat);
+
+        std::string debug;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                debug += std::to_string(mat[i * 4 + j]) + " ";
+            }
+            debug += '\n';
+        }
+
+        printf("Matrix:\n%s \n", debug.c_str());
+        glPopMatrix();
     }
 
 }

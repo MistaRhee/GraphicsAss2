@@ -19,7 +19,7 @@ namespace __game__ {
         this->ROOT = new cObject();
         this->ROOT->setName("ROOT");
         this->ROOT->hidden = true;
-        this->mCamera = new cCamera(this->ROOT, vec3(0, 0, 0), vec3(0, 0, 0), 0); 
+        this->mCamera = new cCamera(this->ROOT, vec3(0, 0, 0), vec3(0, 0, 0), 1); 
         this->mCamera->setName("Camera");
 
         this->mActors.insert(std::make_pair("Camera", this->mCamera));
@@ -117,6 +117,8 @@ namespace __game__ {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 0. Error: ") + std::to_string(err));//+ std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
+        glMatrixMode(GL_MODELVIEW);
+
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 1. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
@@ -211,7 +213,6 @@ namespace __game__ {
     }
 
     void cMain::update() {
-        /* Stub ATM */
         for (auto it : this->mActors) {
             it.second->update();
         }
