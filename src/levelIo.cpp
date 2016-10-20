@@ -39,29 +39,28 @@ namespace __game__ {
             float localDiff[] = {1.0f, 1.0f, 1.0f, 1.0f};
             float localSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
             /* FIXME: Unfuck this shit */
-            float position[] = { doc["sunlight"][0].GetFloat(), doc["sunlight"][1].GetFloat(), doc["sunlight"][2].GetFloat(), 1.0f };
+            float position[] = { -doc["sunlight"][0].GetFloat(), -doc["sunlight"][1].GetFloat(), -doc["sunlight"][2].GetFloat(), 1.0f };
 
             glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
             glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
             glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
             glLightfv(GL_LIGHT0, GL_POSITION, position);
         }
-        std::vector<double> alts; //HACKS!!!
         if (doc.HasMember("altitude")) {
             const rapidjson::Value& alt = doc["altitude"];
             for (unsigned int i = 0; i < alt.Size(); i++) {
-                alts.push_back(alt[i].GetDouble());
+                altitudes.push_back(alt[i].GetDouble());
             }
             cMap* mMap = new cMap(this->ROOT);
             mMap->setName("mMap");
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap->addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, -(j+0.5))); //Middle point is interpolated from the corners
-                    mMap->addPoint(vec3(i, alts[i+j*z], -j));
-                    mMap->addPoint(vec3(i+1, alts[i+1+j*z], -j));
-                    mMap->addPoint(vec3(i, alts[i+(j+1)*z], -(j+1)));
-                    mMap->addPoint(vec3(i+1, alts[i+1+(j+1)*z], -(j+1)));
+                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*z] + altitudes[i+1+j*z] + altitudes[i+(j+1)*z] + altitudes[i+1+(j+1)*z])/4, -(j+0.5))); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, altitudes[i+j*z], -j));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*z], -j));
+                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*z], -(j+1)));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*z], -(j+1)));
                 }
             }
         }
@@ -75,12 +74,12 @@ namespace __game__ {
                 int width = doc["width"].GetInt();
                 cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
                                          std::max(
-                                             alts[fx + fz*width],
+                                             altitudes[fx + fz*width],
                                              std::max(
-                                                 alts[fx + cz*width],
+                                                 altitudes[fx + cz*width],
                                                  std::max(
-                                                     alts[cx + fx*width],
-                                                     alts[cx + cz*width]
+                                                     altitudes[cx + fx*width],
+                                                     altitudes[cx + cz*width]
                                                  )
                                              )
                                          ) //min height is the max of the 4 points around it
@@ -96,7 +95,7 @@ namespace __game__ {
                 for (unsigned int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
                     points.push_back(std::make_pair(doc["roads"][i]["spine"][j].GetDouble(), doc["roads"][i]["spine"][++j].GetDouble()));
                 }
-                cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, alts, width);
+                cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, altitudes, width);
                 mRoad->setName("road");
                 this->ROOT->addChild(mRoad);
             }

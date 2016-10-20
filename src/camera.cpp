@@ -26,9 +26,9 @@ namespace __game__ {
         glMatrixMode(GL_MODELVIEW);
 
         loadMatrix();
-        glScaled(1, 1, -1);
         double mMatrix[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);
+        glScaled(1, 1, -1);
 
         /*
         std::string debug;
@@ -45,7 +45,7 @@ namespace __game__ {
         glLoadIdentity();
         gluLookAt(
             mMatrix[12], mMatrix[13], mMatrix[14], 
-            mMatrix[8], mMatrix[9], mMatrix[10],
+            mMatrix[12]+mMatrix[8], mMatrix[13]+mMatrix[9], mMatrix[14]+mMatrix[10],
             0, 1, 0 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
         );
     }

@@ -75,22 +75,22 @@ namespace __game__ {
         switch (key) {
             case SDLK_w:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(0.001);
+                    if(isDown) this->mCamera->move(vec3(0, 0, 0.001));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(0.001);
+                    if(isDown) this->currPawn->move(vec3(0, 0, 0.001));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_s:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(-0.001);
+                    if(isDown) this->mCamera->move(vec3(0, 0, -0.001));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(-0.001);
+                    if(isDown) this->currPawn->move(vec3(0, 0, -0.001));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
@@ -115,13 +115,25 @@ namespace __game__ {
 
             case SDLK_LSHIFT:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(-0.001);
+                    if(isDown) this->mCamera->move(vec3(0, 0.001, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(-0.001);
+                    if(isDown) this->currPawn->move(vec3(0, 0.001, 0));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
+                break;
+
+            case SDLK_RSHIFT:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->move(vec3(0, -0.001, 0));
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
+                }
+                else {
+                    if(isDown) this->currPawn->move(vec3(0, -0.001, 0));
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
+                }
+                break;
 
             case SDLK_SPACE: //debugging stuffs
                 this->mCamera->printDebug();

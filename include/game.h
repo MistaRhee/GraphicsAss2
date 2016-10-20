@@ -64,10 +64,12 @@ namespace __game__ {
         cPawn* currPawn; //If not assigned, then free camera which can fly through. Rapid collision detection stuffs ECKS DEE
         std::map<std::string, cActor*> mActors; //Actor storage (named for ease of access)
 
+        /* Assignment specific shit which I'll probably say is TERRIBLE */
+        std::vector<double> altitudes;
+
         /* Window storage */
         SDL_Window* mWindow;
         SDL_GLContext mContext;
-
 
         /* Current map storage data */
         int width;
