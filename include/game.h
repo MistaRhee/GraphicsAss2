@@ -15,8 +15,8 @@
 #include "pawn.h"
 #include "object.h"
 
-#define GAME_WINDOW_WIDTH 800
-#define GAME_WINDOW_HEIGHT 600
+#define GAME_WINDOW_WIDTH 1280
+#define GAME_WINDOW_HEIGHT 720
 
 namespace __game__ {
 

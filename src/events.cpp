@@ -113,6 +113,16 @@ namespace __game__ {
                 }
                 break;
 
+            case SDLK_LSHIFT:
+                if (this->currPawn == NULL) {
+                    if(isDown) this->mCamera->move(-0.001);
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
+                }
+                else {
+                    if(isDown) this->currPawn->move(-0.001);
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
+                }
+
             case SDLK_SPACE: //debugging stuffs
                 this->mCamera->printDebug();
                 break;

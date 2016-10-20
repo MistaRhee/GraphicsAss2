@@ -57,11 +57,11 @@ namespace __game__ {
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap->addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, j+0.5)); //Middle point is interpolated from the corners
-                    mMap->addPoint(vec3(i, alts[i+j*z], j));
-                    mMap->addPoint(vec3(i+1, alts[i+1+j*z], j));
-                    mMap->addPoint(vec3(i, alts[i+(j+1)*z], j+1));
-                    mMap->addPoint(vec3(i+1, alts[i+1+(j+1)*z], j+1));
+                    mMap->addPoint(vec3(i+0.5, (alts[i+j*z] + alts[i+1+j*z] + alts[i+(j+1)*z] + alts[i+1+(j+1)*z])/4, -(j+0.5))); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, alts[i+j*z], -j));
+                    mMap->addPoint(vec3(i+1, alts[i+1+j*z], -j));
+                    mMap->addPoint(vec3(i, alts[i+(j+1)*z], -(j+1)));
+                    mMap->addPoint(vec3(i+1, alts[i+1+(j+1)*z], -(j+1)));
                 }
             }
         }

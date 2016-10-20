@@ -5,7 +5,7 @@ namespace __game__ {
     cTree::cTree(double x, double z, double height) {
         /* Height is "minimum" height */
         addPoints(height + int(rand() % 4 + 1));
-        this->translation = vec3(x, z, 0);
+        this->translation = vec3(x, 0, z);
     }
 
     void cTree::addPoints(double h) {

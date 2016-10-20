@@ -26,16 +26,16 @@ namespace __game__ {
         /* Check collisions, adjust accordingly */
     }
 
-    void cActor::move(double a) {
+    void cActor::move(vec3 a) {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         this->loadMatrix();
         double mMat[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMat);
-        vec3 dir(mMat[8], mMat[9], mMat[10]); //What's forwards
-        dir.x *= a;
-        dir.y *= a;
-        dir.z *= a;
+        vec3 z(mMat[8], mMat[9], mMat[10]); //What's forwards
+        z.x *= a.z;
+        z.y *= a.z;
+        z.z *= a.z;
         this->velocity += dir;
         glPopMatrix();
 

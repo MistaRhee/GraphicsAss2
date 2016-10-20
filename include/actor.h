@@ -13,7 +13,7 @@ namespace __game__ {
 
         void update();
 
-        void move(double); //Changes increases velocity by ddx
+        void move(vec3); //Changes increases velocity by ddx
         void setSpeed(vec3); //Sets velocity
 
     protected:

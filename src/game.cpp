@@ -110,7 +110,7 @@ namespace __game__ {
         /* Set the perspective camera. */
         glLoadIdentity();
 //TODO: Tweak numbers to make stuff look pretty
-        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.5, 2); //Can see two "chunks" above
+        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.3, 5); //Can see two "chunks" above
 
         err = glGetError();
         if (err != GL_NO_ERROR) {
@@ -131,8 +131,8 @@ namespace __game__ {
         }
 
         /* Back face culling */
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
+        //glEnable(GL_CULL_FACE);
+        //glCullFace(GL_BACK);
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 3. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
