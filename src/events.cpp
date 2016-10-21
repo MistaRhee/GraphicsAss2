@@ -51,8 +51,8 @@ namespace __game__ {
 
                 case SDL_MOUSEMOTION:
                     handleUserMouse(
-                        e.motion.x,
-                        e.motion.y,
+                        e.motion.xrel,
+                        e.motion.yrel,
                         GAME_MOUSE_MOVE,
                         0 //Ignored anyway because no button is found
                         );
@@ -97,19 +97,23 @@ namespace __game__ {
 
             case SDLK_a:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(10, vec3(0, 1, 0));
+                    if(isDown) this->mCamera->move(vec3(0.001, 0, 0));
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(10, vec3(0, 1, 0));
+                    if(isDown) this->currPawn->move(vec3(0.001, 0, 0));
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_d:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->rotate(-10, vec3(0, 1, 0));
+                    if(isDown) this->mCamera->move(vec3(-0.001, 0, 0));
+                    else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->rotate(-10, vec3(0, 1, 0));
+                    if(isDown) this->currPawn->move(vec3(-0.001, 0, 0));
+                    else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
@@ -157,6 +161,14 @@ namespace __game__ {
                 break;
 
             case GAME_MOUSE_MOVE:
+                /* Rotate the screen in accordance to mouse dx, dy */
+                if (this->currPawn == NULL) {
+                    this->mCamera->rotate(-x, vec3(0, 1, 0));
+                    this->mCamera->rotate(y, vec3(1, 0, 0));
+                }
+                else {
+
+                }
                 break;
 
             default:

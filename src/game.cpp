@@ -86,7 +86,10 @@ namespace __game__ {
             SDL_WINDOW_OPENGL
             );
         if (this->mWindow == NULL) {
-            this->debugError(std::string("[game.cpp] Error: Failed to crete window! SDL_Error: ") + std::string(SDL_GetError()));
+            this->debugError(std::string("[game.cpp] Error: Failed to create window! SDL_Error: ") + std::string(SDL_GetError()));
+        }
+        if (SDL_SetRelativeMouseMode(SDL_TRUE)) {
+            this->debugError(std::string("[game.cpp] Error: Failed to set relative mouse mode! SDL_Error: ") + std::string(SDL_GetError()));
         }
         this->debugInformation("[game.cpp] Info: Finished initializing SDL");
     }

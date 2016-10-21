@@ -19,6 +19,8 @@ namespace __game__ {
         void render() override;
         void render(__logger::cLogger*) override;
 
+        void rotate(double, vec3) override;
+
         void setThirdPersonDist(double);
     private:
         double thirdPersonDist;

@@ -55,9 +55,9 @@ namespace __game__ {
             this->parent->loadMatrix();
         }
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
-        glRotated(this->rotation.x, 1, 0, 0);
-        glRotated(this->rotation.y, 0, 1, 0);
         glRotated(this->rotation.z, 0, 0, 1);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
     }
 
@@ -66,9 +66,9 @@ namespace __game__ {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
-        glRotated(this->rotation.x, 1, 0, 0);
-        glRotated(this->rotation.y, 0, 1, 0);
         glRotated(this->rotation.z, 0, 0, 1);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
         if (!hidden) {
             glBegin(glFlag);
@@ -95,14 +95,10 @@ namespace __game__ {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         double mMat[16];
-        glGetDoublev(GL_MODELVIEW_MATRIX, mMat);
-        vec3 x(mMat[0], mMat[1], mMat[2]);
-        vec3 y(mMat[4], mMat[5], mMat[6]);
-        vec3 z(mMat[8], mMat[9], mMat[10]);
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
-        glRotated(this->rotation.x, x.x, x.y, x.z);
-        glRotated(this->rotation.y, y.x, y.y, y.z);
-        glRotated(this->rotation.z, z.x, z.y, z.z);
+        glRotated(this->rotation.z, 0, 0, 1);
+        glRotated(this->rotation.y, 0, 1, 0);
+        glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
         if (!hidden) {
             glBegin(glFlag);
@@ -191,8 +187,8 @@ namespace __game__ {
 
     void cObject::printDebug() {
         printf("Name: %s\n", this->name.c_str());
-        printf("Translation: %.2f %.2f %.2f \n", this->translation.x, this->translation.y, this->translation.z);
-        printf("Rotation (x, y, z): %.2f %.2f %.2f \n", this->rotation.x, this->rotation.y, this->rotation.z);
+        printf("Translation: %f %f %f \n", this->translation.x, this->translation.y, this->translation.z);
+        printf("Rotation (x, y, z): %f %f %f \n", this->rotation.x, this->rotation.y, this->rotation.z);
         printf("Scale: %.2f\n", this->scale);
         
         glMatrixMode(GL_MODELVIEW);

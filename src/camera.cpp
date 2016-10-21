@@ -22,14 +22,22 @@ namespace __game__ {
 
     cCamera::~cCamera() {}
 
+    void cCamera::rotate(double r, vec3 axis) {
+        if (axis != vec3(1, 0, 0) && axis != vec3(0, 1, 0) && axis != vec3(0, 0, 1)) abort();
+        this->rotation += vec3(axis.x*r, axis.y*r, 0);
+        if (this->rotation.x > 90) this->rotation.x = 90;
+        if (this->rotation.x < -90) this->rotation.x = -90;
+        if (this->rotation.y > 180) this->rotation.y -= 360;
+        if (this->rotation.y < -180) this->rotation.y += 360;
+    }
+
     void cCamera::render() {
         glMatrixMode(GL_MODELVIEW);
 
         loadMatrix();
         double mMatrix[16];
         glGetDoublev(GL_MODELVIEW_MATRIX, mMatrix);
-        glScaled(1, 1, -1);
-
+        glScaled(1, 1, -1); //Flips camera properly
         /*
         std::string debug;
         for (int i = 0; i < 4; i++) {
@@ -46,7 +54,7 @@ namespace __game__ {
         gluLookAt(
             mMatrix[12], mMatrix[13], mMatrix[14], 
             mMatrix[12]+mMatrix[8], mMatrix[13]+mMatrix[9], mMatrix[14]+mMatrix[10],
-            0, 1, 0 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
+            0, 1, 0 
         );
     }
 
