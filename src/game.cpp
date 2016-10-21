@@ -131,8 +131,8 @@ namespace __game__ {
         }
 
         /* Back face culling */
-        //glEnable(GL_CULL_FACE);
-        //glCullFace(GL_BACK);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 3. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));

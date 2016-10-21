@@ -56,11 +56,11 @@ namespace __game__ {
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*z] + altitudes[i+1+j*z] + altitudes[i+(j+1)*z] + altitudes[i+1+(j+1)*z])/4, -(j+0.5))); //Middle point is interpolated from the corners
-                    mMap->addPoint(vec3(i, altitudes[i+j*z], -j));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*z], -j));
-                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*z], -(j+1)));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*z], -(j+1)));
+                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*z] + altitudes[i+1+j*z] + altitudes[i+(j+1)*z] + altitudes[i+1+(j+1)*z])/4, (j+0.5))); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, altitudes[i+j*z], j));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*z], j));
+                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*z], (j+1)));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*z], (j+1)));
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace __game__ {
                 int cx = ceil(tree[i]["x"].GetDouble());
                 int cz = ceil(tree[i]["z"].GetDouble());
                 int width = doc["width"].GetInt();
-                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), -doc["trees"][i]["z"].GetDouble(),
+                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
                                          std::max(
                                              altitudes[fx + fz*width],
                                              std::max(

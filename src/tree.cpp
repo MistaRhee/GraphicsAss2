@@ -4,7 +4,7 @@ namespace __game__ {
 
     cTree::cTree(double x, double z, double height) {
         /* Height is "minimum" height */
-        addPoints(height + int(rand() % 4 + 1));
+        addPoints(height + ((int)(rand() % 75))/100);
         this->translation = vec3(x, 0, z);
     }
 
@@ -45,16 +45,16 @@ namespace __game__ {
         this->mCylinder->setName("Tree Trunk");
         this->mCylinder->setParent(this);
         this->mCylinder->setGLFlag(GL_QUAD_STRIP);
-        this->mSphere = new cObject(this);
-        this->mSphere->translate(vec3(0, 0, h)); //Move the sphere up
-        this->mSphere->setName("Tree Leaves");
-        this->mSphere->setGLFlag(GL_TRIANGLE_STRIP);
+        this->mLeaves= new cObject(this);
+        this->mLeaves->translate(vec3(0, h, 0)); //Move the sphere up
+        this->mLeaves->setName("Tree Leaves");
+        this->mLeaves->setGLFlag(GL_TRIANGLE_FAN);
 
         for (int i = 0; i < 10; i++) {
-            double theta = 2 * M_PI*i / 10;
+            double phi = 2 * M_PI*i / 10;
             for (int j = 0; j < 10; j++) {
-                double phi = 2 * M_PI*j / 10;
-                this->mSphere->addPoint(vec3(sin(theta) * cos(phi) * 0.2, sin(theta)*sin(phi) * 0.2, cos(theta) * 0.2), vec3(sin(theta) * cos(phi) * 0.2, sin(theta)*sin(phi)*0.2, cos(theta)*0.2));
+                double theta = 2 * M_PI*j / 10;
+                this->mLeaves->addPoint(vec3(sin(theta) * cos(phi) * 0.4, cos(theta)*0.4, sin(theta)*sin(phi) * 0.4), vec3(sin(theta) * cos(phi) * 0.4, cos(theta)*0.4, sin(theta)*sin(phi)*0.4));
             }
         }
 

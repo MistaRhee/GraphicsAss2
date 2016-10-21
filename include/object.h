@@ -111,7 +111,7 @@ namespace __game__ {
 
         /* Actually just gonna neck myself for being so gosh darned stupid -_- */
         cObject* mCylinder;
-        cObject* mSphere;
+        cObject* mLeaves;
         
     };
 

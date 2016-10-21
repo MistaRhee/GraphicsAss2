@@ -50,8 +50,8 @@ namespace __game__ {
 
                 glNormal3d(three.x, three.y, three.z);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
-                glVertex3d(d.x, d.y, d.z);
                 glVertex3d(c.x, c.y, c.z);
+                glVertex3d(d.x, d.y, d.z);
 
                 glNormal3d(four.x, four.y, four.z);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
