@@ -63,8 +63,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Wondows\MistaRhee\Documents\programs\GraphicsAss2\include;libs\SDL2-2.0.4\include;libs\SDL2_ttf-2.0.14\include;libs\glew-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>libs\SDL2-2.0.4\lib\x86;libs\SDL2_ttf-2.0.14\lib\x86;libs\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Wondows\MistaRhee\Documents\programs\GraphicsAss2\include;libs\SDL2-2.0.5\include;libs\SDL2_ttf-2.0.14\include;libs\glew-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>libs\SDL2-2.0.5\lib\x86;libs\SDL2_ttf-2.0.14\lib\x86;libs\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>

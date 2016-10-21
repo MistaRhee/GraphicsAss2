@@ -72,7 +72,7 @@ namespace __game__ {
                 int cx = ceil(tree[i]["x"].GetDouble());
                 int cz = ceil(tree[i]["z"].GetDouble());
                 int width = doc["width"].GetInt();
-                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
+                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), -doc["trees"][i]["z"].GetDouble(),
                                          std::max(
                                              altitudes[fx + fz*width],
                                              std::max(

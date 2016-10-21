@@ -18,14 +18,14 @@ namespace __game__ {
         for (int i = 0; i <= 64; i++) {
             /* Lets keep radius of tree at 1 and radius of the sphere a nice and wonderful 2 */
             double a0 = i * angleStep;
-            double a1 = ((i + 1) %  64) * angleStep;
+            double a1 = ((i + 1) % 64) * angleStep;
 
             //Calculate vertices for the quad
-            double x0 = cos(a0);
-            double y0 = sin(a0);
+            double x0 = cos(a0) * 0.1;
+            double y0 = sin(a0) * 0.1;
 
-            double x1 = cos(a1);
-            double y1 = sin(a1);
+            double x1 = cos(a1) * 0.1;
+            double y1 = sin(a1) * 0.1;
             /* Points go from 0 -> height*/
             /* Render Bottom L -> R, Top R->L */
             cylinderN.push_back(vec3(x0, 0, y0));
@@ -49,12 +49,12 @@ namespace __game__ {
         this->mSphere->translate(vec3(0, 0, h)); //Move the sphere up
         this->mSphere->setName("Tree Leaves");
         this->mSphere->setGLFlag(GL_TRIANGLE_STRIP);
-        
+
         for (int i = 0; i < 10; i++) {
             double theta = 2 * M_PI*i / 10;
             for (int j = 0; j < 10; j++) {
                 double phi = 2 * M_PI*j / 10;
-                this->mSphere->addPoint(vec3(sin(theta) * cos(phi), sin(theta)*sin(phi), cos(theta)), vec3(sin(theta) * cos(phi), sin(theta)*sin(phi), cos(theta)));
+                this->mSphere->addPoint(vec3(sin(theta) * cos(phi) * 0.2, sin(theta)*sin(phi) * 0.2, cos(theta) * 0.2), vec3(sin(theta) * cos(phi) * 0.2, sin(theta)*sin(phi)*0.2, cos(theta)*0.2));
             }
         }
 
