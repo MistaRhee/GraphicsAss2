@@ -14,7 +14,8 @@ namespace __game__ {
     public:
         cCamera(cObject*, vec3, vec3, double); //Cameras are "attached" to pawn in fixed position
         ~cCamera();
-        bool isThirdPerson;
+
+        bool thirdPerson;
 
         void render() override;
         void render(__logger::cLogger*) override;
@@ -24,7 +25,6 @@ namespace __game__ {
         bool collidesWith(cObject*) override { return false; };
 
         void update(cObject*) override; //Overloaded for free cam
-        void setThirdPerson(bool);
     private:
         const double thirdPersonDist = 2.5; //Camera gets translated 2.5 units backwards
 

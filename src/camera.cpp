@@ -18,6 +18,7 @@ namespace __game__ {
         this->translation = t;
         this->rotation = r;
         this->scale = s;
+        this->thirdPerson = false;
     }
 
     cCamera::~cCamera() {}
@@ -51,11 +52,20 @@ namespace __game__ {
         */
 
         glLoadIdentity();
-        gluLookAt(
-            mMatrix[12], mMatrix[13], mMatrix[14], 
-            mMatrix[12]+mMatrix[8], mMatrix[13]+mMatrix[9], mMatrix[14]+mMatrix[10],
-            0, 1, 0 
-        );
+        if (thirdPerson) {
+            gluLookAt(
+                mMatrix[12] + (mMatrix[8] * -this->thirdPersonDist), mMatrix[13] + (mMatrix[9] * -this->thirdPersonDist), mMatrix[14] + (mMatrix[10] * -this->thirdPersonDist),
+                mMatrix[12], mMatrix[13], mMatrix[14],
+                0, 1, 0
+            );
+        }
+        else {
+            gluLookAt(
+                mMatrix[12], mMatrix[13], mMatrix[14],
+                mMatrix[12] + mMatrix[8], mMatrix[13] + mMatrix[9], mMatrix[14] + mMatrix[10],
+                0, 1, 0
+            );
+        }
     }
 
     void cCamera::update(cObject* ROOT) {
@@ -89,15 +99,6 @@ namespace __game__ {
             0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
         );
         glPopMatrix();
-    }
-
-    void cCamera::setThirdPerson(bool t) {
-        if (t) {
-            this->setTranslation(vec3(0, 0, this->thirdPersonDist));
-        }
-        else {
-            this->setTranslation(vec3(0, 0, 0));
-        }
     }
 }
 

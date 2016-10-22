@@ -20,14 +20,14 @@ namespace __game__ {
         this->ROOT->setName("ROOT");
         this->ROOT->hidden = true;
 
-        this->mCamera = new cCamera(this->ROOT, vec3(0, 0, 0), vec3(0, 0, 0), 1); 
+        this->mCamera = new cCamera(this->ROOT, vec3(0, 1, 0), vec3(0, 0, 0), 1); 
         this->mCamera->setName("Camera");
 
         this->currPawn = new cPawn();
         this->currPawn->setParent(this->ROOT);
         this->currPawn->setName("Pawn");
-        this->currPawn->setThirdPerson(false);
         this->currPawn->setCamera(this->mCamera);
+        this->currPawn->setThirdPerson(false);
 
         this->mActors.push_back(this->mCamera);
         this->mActors.push_back(this->currPawn);

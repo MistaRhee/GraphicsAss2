@@ -40,8 +40,8 @@ namespace __game__ {
     void cRoad::addSegment(std::pair<double, double> controla, std::pair<double, double> controlb, std::pair<double, double> end, std::vector<double> alts, double mWidth) {
         for (int i = 0; i < 16; i++) {
             /* Interpolate the "appropriate" height */
-            double x = b(0, (double)i / 16) * controla.first + b(1, (double)i / 16) * controlb.first + b(3, (double)i / 16) * end.first;
-            double z = b(0, (double)i / 16) * controla.second + b(1, (double)i / 16) * controlb.second + b(3, (double)i / 16) * end.second;
+            double x = b(0, (double)i/16) * prevStart.first + b(1, (double)i / 16) * controla.first + b(2, (double)i / 16) * controlb.first + b(3, (double)i / 16) * end.first;
+            double z = b(0, (double)i/16) * prevStart.second + b(1, (double)i / 16) * controla.second + b(2, (double)i / 16) * controlb.second + b(3, (double)i / 16) * end.second;
             double rx = x - floor(x);
             double rz = z - floor(z);
 

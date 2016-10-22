@@ -163,6 +163,7 @@
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\pawn.cpp" />
+    <ClCompile Include="src\portal.cpp" />
     <ClCompile Include="src\road.cpp" />
     <ClCompile Include="src\tree.cpp" />
   </ItemGroup>

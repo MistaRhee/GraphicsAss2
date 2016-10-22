@@ -72,6 +72,7 @@ struct hitBox {
         if (other.origin.y < (origin + yDir).y) return false;
         if (origin.z > (other.origin + other.zDir).z) return false;
         if (other.origin.z < (origin + zDir).z) return false;
+
         return true;
     }
 };

@@ -20,11 +20,12 @@ namespace __game__ {
     }
 
     void cPawn::setHeight(double h) {
-        this->translation.y = h+1;
+        this->translation.y = h;
     }
 
     void cPawn::setThirdPerson(bool t) {
         this->hidden = !t;
+        this->mCamera->thirdPerson = t;
     }
 
     void cPawn::move(vec3 a) {

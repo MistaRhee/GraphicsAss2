@@ -74,6 +74,8 @@ namespace __game__ {
 
         virtual bool collidesWith(cObject*);
 
+        hitBox* hb;
+
     protected:
 
         uint32_t glFlag;
@@ -90,8 +92,6 @@ namespace __game__ {
         double scale = 1; //Everything can only be scaled in a nice way because reasons.
 
         std::string name;
-
-        hitBox* hb;
     };
 
     /* Assignment specific stuff */
@@ -127,6 +127,19 @@ namespace __game__ {
         cObject* mCylinder;
         cObject* mLeaves;
         
+    };
+
+    class cPortal : public cObject {
+    public:
+        cPortal(double, double, double, double, double); //Start x0z0, start x1,z1, end x0z0, endx1z1, height
+
+        bool collidesWith(cObject*) override;
+
+    private:
+        std::pair<vec3, vec3> start; //They work in both directions I assume
+        std::pair<vec3, vec3> end;
+
+        double height;
     };
 
 }

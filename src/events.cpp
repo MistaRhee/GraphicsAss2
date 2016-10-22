@@ -171,7 +171,6 @@ namespace __game__ {
     void cMain::handleUserScroll(int dx, int dy) { //Only care about the forwards/backwards scroll movement to control the camera (first-person -> third person)
         if (dy < 0) { //Third person
             this->currPawn->setThirdPerson(true);
-
         }
         else { //First person
             this->currPawn->setThirdPerson(false);

@@ -41,7 +41,7 @@ namespace __game__ {
             this->mCylinder->addPoint(vec3(x1, h, y1), vec3(x1, 0, y1), vec3(0.5, 0, 0));
         }
         hitBox* chb = new hitBox;
-        chb->origin = vec3(0.1, 0, 0.1);
+        chb->origin = vec3(-0.1, 0, -0.1);
         chb->xDir = vec3(0.2, 0, 0);
         chb->yDir = vec3(0, h, 0);
         chb->zDir = vec3(0, 0, 0.2);
