@@ -52,11 +52,46 @@ namespace __game__ {
             double rz = z - floor(z);
 
             double midAlt = (alts[floor(x) + floor(z)*mWidth] + alts[ceil(x) + floor(z)*mWidth] + alts[floor(x) + ceil(z)*mWidth] + alts[ceil(x) + ceil(z)*mWidth]) / 4;
-
-            /* I'm a monster -_- */
-            double y = 0.001;
-            if (x > z) {
-                if (x > 1 - z) {
+			double y = 0;
+			if (rx == 0 || rz == 0) {
+				if (rz == 0 && rx == 0) {
+					y = alts[floor(x) + floor(z)*mWidth];
+				}
+				else {
+					if (rx == 0 && rz != 0) {
+						y = alts[floor(x) + floor(z)*mWidth] + (alts[floor(x) + ceil(z)*mWidth] - alts[floor(x) + floor(z)*mWidth])*rz;
+					}
+					else {
+						y = alts[floor(x) + floor(z)*mWidth] + (alts[ceil(x) + floor(z)*mWidth] - alts[floor(x) + floor(z)*mWidth])*rx;
+					}
+				}
+			}
+			else {
+				if (rx > rz) {
+					if (rx < 1 - rz) {
+						y = std::max({ alts[floor(x) + floor(z)*mWidth],alts[ceil(x) + floor(z)*mWidth],midAlt });
+						//y = alts[floor(x) + floor(z)*mWidth] + (rx + rz)*(midAlt - alts[floor(x) + floor(z)*mWidth]) + (rx - rz)*(alts[ceil(x) + floor(y)*mWidth] - midAlt);
+					}
+					else {
+						y = std::max({ alts[ceil(x) + floor(z)*mWidth],alts[ceil(x) + ceil(z)*mWidth],midAlt });
+						//y = alts[ceil(x) + ceil(z)*mWidth] + (rx + rz)*(midAlt - alts[ceil(x) + ceil(z)*mWidth]) + (rx - rz)*(alts[ceil(x) + floor(z)*mWidth] - midAlt);
+					}
+				}
+				else {
+					if (rx < 1 - rz) {
+						y = std::max({ alts[floor(x) + floor(z)*mWidth],alts[floor(x) + ceil(z)*mWidth],midAlt });
+						//y = alts[floor(x) + floor(z)*mWidth] + (rx + rz)*(midAlt - alts[floor(x) + floor(z)*mWidth]) + (rx - rz)*(alts[floor(x) + ceil(y)*mWidth] - midAlt);
+					}
+					else {
+						y = std::max({ alts[floor(x) + ceil(z)*mWidth],alts[ceil(x) + ceil(z)*mWidth],midAlt });
+						//y = alts[ceil(x) + ceil(z)*mWidth] + (rx + rz)*(midAlt - alts[ceil(x) + ceil(z)*mWidth]) + (rx - rz)*(alts[floor(x) + ceil(z)*mWidth] - midAlt);
+					}
+				}
+			}
+			y += 0.001;
+            /*double y = 0.001;
+            if (rx > rz) {
+                if (rx > 1 - rz) {
                     y += (dist(rx, rz, 0, 1) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 1, 1) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 1, 1) + dist(rx, rz, 0.5, 0.5));
                 }
                 else {
@@ -64,13 +99,14 @@ namespace __game__ {
                 }
             }
             else {
-                if (x > 1 - z) {
+                if (rx > 1 - rz) {
                     y += (dist(rx, rz, 0, 1) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
                 else {
                     y += (dist(rx, rz, 1, 0) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
             }
+			*/
             this->points.push_back(vec3(x, y, z));
         }
         //this->prevStart = end;
@@ -88,7 +124,8 @@ namespace __game__ {
 		//for (int i = 0; i < this->points.size(); i++) {		//	printf("%d, %f, %f, %f,\n", i, this->points[i].x, this->points[i].y, this->points[i].z);		//}
 		double h = 2; //substitute with altitude
 		double width = 2;
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glBindTexture(GL_TEXTURE_2D, this->texID);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glBegin(GL_QUAD_STRIP);
 		for (int i = 0; i < this->points.size(); i++) {
 			//glVertex3d(this->points[i].x, this->points[i].y, this->points[i].z);
@@ -109,10 +146,12 @@ namespace __game__ {
 			vec3 perpvec(perpz / norm, backpoint.y, -perpx / norm);
 			glNormal3d(0, 1, 0);
 			//printf("%f %f %f\n", perpvec.x*width / 2 + this->points[i].x, this->points[i].y, perpvec.z*width / 2 + this->points[i].z);
+			glTexCoord2d(0.75, i % 2);
 			glVertex3d(perpvec.x*width / 2 + this->points[i].x, this->points[i].y, perpvec.z*width / 2 + this->points[i].z);
 
 			glNormal3d(0, 1, 0);
 			//printf("%f %f %f\n", -perpvec.x*width / 2 + this->points[i].x, this->points[i].y, -perpvec.z*width / 2 + this->points[i].z);
+			glTexCoord2d(1, i % 2);
 			glVertex3d(-perpvec.x*width / 2 + this->points[i].x, this->points[i].y, -perpvec.z*width / 2 + this->points[i].z);
 		}
 		glEnd();

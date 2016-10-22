@@ -91,6 +91,7 @@ namespace __game__ {
                 }
                 cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, altitudes, width);
                 mRoad->setName("road");
+				mRoad->setTexID(this->textures[0]);
                 this->ROOT->addChild(mRoad);
             }
         }
