@@ -65,7 +65,6 @@ namespace __game__ {
                     y += (dist(rx, rz, 1, 0) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
             }
-            printf("%f %f %f \n", x, y, z);
             this->points.push_back(vec3(x, y, z));
         }
         this->prevStart = end;
