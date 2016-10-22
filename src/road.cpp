@@ -40,8 +40,8 @@ namespace __game__ {
     void cRoad::addSegment(std::pair<double, double> controla, std::pair<double, double> controlb, std::pair<double, double> end, std::vector<double> alts, double mWidth) {
         for (int i = 0; i < 16; i++) {
             /* Interpolate the "appropriate" height */
-            double x = b(0, i / 16) * controla.first + b(1, i / 16) * controlb.first + b(3, i / 16) * end.first;
-            double z = b(0, i / 16) * controla.second + b(1, i / 16) * controlb.second + b(3, i / 16) * end.second;
+            double x = b(0, (double)i / 16) * controla.first + b(1, (double)i / 16) * controlb.first + b(3, (double)i / 16) * end.first;
+            double z = b(0, (double)i / 16) * controla.second + b(1, (double)i / 16) * controlb.second + b(3, (double)i / 16) * end.second;
             double rx = x - floor(x);
             double rz = z - floor(z);
 
@@ -65,6 +65,7 @@ namespace __game__ {
                     y += (dist(rx, rz, 1, 0) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
             }
+            printf("%f %f %f \n", x, y, z);
             this->points.push_back(vec3(x, y, z));
         }
         this->prevStart = end;
