@@ -71,11 +71,13 @@ namespace __game__ {
         glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
         if (!hidden) {
+            glBindTexture(GL_TEXTURE_2D, this->texID);
             glBegin(glFlag);
             {
-                if (this->normals.size() == this->points.size()) {
+                if (this->normals.size() == this->points.size() && this->texture.size() == this->points.size()) {
                     for (int i = 0; i < this->points.size(); i++) {
                         glNormal3d(this->normals[i].x, this->normals[i].y, this->normals[i].z);
+                        glTexCoord2d(this->texture[i].x, this->texture[i].y); //z is ignored because it's a 2d vector
                         glVertex3d(this->points[i].x, this->points[i].y, this->points[i].z);
                     }
                 }
@@ -103,8 +105,10 @@ namespace __game__ {
         if (!hidden) {
             glBegin(glFlag);
             {
-                if (this->normals.size() == this->points.size()) {
+                if (this->normals.size() == this->points.size() && this->texture.size() == this->points.size()) {
+                    glBindTexture(GL_TEXTURE_2D, this->texID);
                     for (int i = 0; i < this->points.size(); i++) {
+                        glTexCoord2d(this->texture[i].x, this->texture[i].y); //z is ignored because it's a 2d vector
                         glNormal3d(this->normals[i].x, this->normals[i].y, this->normals[i].z);
                         glVertex3d(this->points[i].x, this->points[i].y, this->points[i].z);
                     }
@@ -133,6 +137,12 @@ namespace __game__ {
     void cObject::addPoint(vec3 p, vec3 n) {
         this->points.push_back(p);
         this->normals.push_back(n);
+    }
+
+    void cObject::addPoint(vec3 p, vec3 n, vec3 t) {
+        this->points.push_back(p);
+        this->normals.push_back(n);
+        this->texture.push_back(t);
     }
 
     void cObject::setPoint(int index, vec3 p) {
@@ -190,7 +200,7 @@ namespace __game__ {
         printf("Translation: %f %f %f \n", this->translation.x, this->translation.y, this->translation.z);
         printf("Rotation (x, y, z): %f %f %f \n", this->rotation.x, this->rotation.y, this->rotation.z);
         printf("Scale: %.2f\n", this->scale);
-        
+
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         loadMatrix();
@@ -210,4 +220,15 @@ namespace __game__ {
         glPopMatrix();
     }
 
+    void cObject::addTex(vec3 c) {
+        this->texture.push_back(c);
+    }
+
+    void cObject::setTexID(int id) {
+        this->texID = id;
+    }
+
+    void cObject::setMainObject(cMain* mMain) {
+        this->topDog = mMain;
+    }
 }

@@ -28,16 +28,24 @@ namespace __game__ {
     };
 
     /* Pawn is a user controllable actor */
-    class cPawn : public cActor {
+    class cPawn: public cActor { //Not really gonna be nice ATM because I"m just hacking stuff up right now.
     public:
         cPawn();
         ~cPawn();
+
+        void setCamera(cCamera*);
+        void dropCamera();
+
+        void setThirdPerson(bool);
 
     protected:
 
         cCamera* mCamera;
 
         std::map<std::string, cActor> models; //First person/third person
+
+    private:
+        void hack();
     };
 
 }

@@ -53,36 +53,41 @@ namespace __game__ {
             }
             cMap* mMap = new cMap(this->ROOT);
             mMap->setName("mMap");
+            mMap->setTexID(this->textures[0]);
             for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
                 for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
                     /* Add middle then the four corners */
-                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*z] + altitudes[i+1+j*z] + altitudes[i+(j+1)*z] + altitudes[i+1+(j+1)*z])/4, (j+0.5))); //Middle point is interpolated from the corners
-                    mMap->addPoint(vec3(i, altitudes[i+j*z], j));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*z], j));
-                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*z], (j+1)));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*z], (j+1)));
+                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*(z+1)] + altitudes[i+1+j*(z+1)] + altitudes[i+(j+1)*(z+1)] + altitudes[i+1+(j+1)*(z+1)])/4, (j+0.5))); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, altitudes[i+j*(z+1)], j));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*(z+1)], j));
+                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*(z+1)], (j+1)));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*(z+1)], (j+1)));
                 }
             }
         }
         if (doc.HasMember("trees")) {
             const rapidjson::Value& tree = doc["trees"];
             for (unsigned int i = 0; i < tree.Size(); i++) {
-                int fx = floor(tree[i]["x"].GetDouble());
-                int fz = floor(tree[i]["z"].GetDouble());
-                int cx = ceil(tree[i]["x"].GetDouble());
-                int cz = ceil(tree[i]["z"].GetDouble());
+                double x = tree[i]["x"].GetDouble();
+                double z = tree[i]["z"].GetDouble();
+                int fx = floor(x);
+                int fz = floor(z);
+                int cx = ceil(x);
+                int cz = ceil(z);
                 int width = doc["width"].GetInt();
-                cTree* mTree = new cTree(doc["trees"][i]["x"].GetDouble(), doc["trees"][i]["z"].GetDouble(),
-                                         std::max(
-                                             altitudes[fx + fz*width],
-                                             std::max(
-                                                 altitudes[fx + cz*width],
-                                                 std::max(
-                                                     altitudes[cx + fx*width],
-                                                     altitudes[cx + cz*width]
-                                                 )
-                                             )
-                                         ) //min height is the max of the 4 points around it
+                cTree* mTree = new cTree(
+                    x, z,
+                    std::max(
+                        altitudes[fx + fz*width],
+                        std::max(
+                            altitudes[fx + cz*width],
+                            std::max(
+                                altitudes[cx + fz*width],
+                                altitudes[cx + cz*width]
+                            )
+                        )
+                    ), //min height is the max of the 4 points around it
+                    this->textures[0]
                 );
                 mTree->setName("Tree");
                 this->ROOT->addChild(mTree);

@@ -36,26 +36,40 @@ namespace __game__ {
             vec3 two = (d - startPoint)*(b - startPoint);
             vec3 three = (a - startPoint)*(c - startPoint);
             vec3 four = (c - startPoint)*(d - startPoint);
+
+            glBindTexture(GL_TEXTURE_2D, this->texID);
             glBegin(GL_TRIANGLES);
             {
                 glNormal3d(one.x, one.y, one.z);
+				glTexCoord2d(0, 0);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
+				glTexCoord2d(0.25, 0);
                 glVertex3d(b.x, b.y, b.z);
+				glTexCoord2d(0.25, 1);
                 glVertex3d(a.x, a.y, a.z);
 
                 glNormal3d(two.x, two.y, two.z);
+				glTexCoord2d(0, 0);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
+				glTexCoord2d(0.25, 0);
                 glVertex3d(d.x, d.y, d.z);
+				glTexCoord2d(0.25, 1);
                 glVertex3d(b.x, b.y, b.z);
 
                 glNormal3d(three.x, three.y, three.z);
+				glTexCoord2d(0, 0);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
+				glTexCoord2d(0.25, 0);
                 glVertex3d(c.x, c.y, c.z);
+				glTexCoord2d(0.25, 1);
                 glVertex3d(d.x, d.y, d.z);
 
                 glNormal3d(four.x, four.y, four.z);
+				glTexCoord2d(0, 0);
                 glVertex3d(startPoint.x, startPoint.y, startPoint.z);
+				glTexCoord2d(0.25, 0);
                 glVertex3d(a.x, a.y, a.z);
+				glTexCoord2d(0.25, 1);
                 glVertex3d(c.x, c.y, c.z);
             }
             glEnd();

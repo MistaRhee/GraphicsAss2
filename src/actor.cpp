@@ -46,17 +46,6 @@ namespace __game__ {
         z.z *= a.z;
         this->velocity += z+x+y;
         glPopMatrix();
-
-        std::string debug;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                debug += std::to_string(mMat[i + j * 4]) + " ";
-            }
-            debug += '\n';
-        }
-
-        fprintf(stdout, "%s \n", debug.c_str());
-        fprintf(stdout, "%.2f %.2f %.2f \n", translation.x, translation.y, translation.z);
     }
 
     void cActor::setSpeed(vec3 a) {

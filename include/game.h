@@ -26,6 +26,9 @@ namespace __game__ {
         ~cMain();
 
         void run();
+
+        void addObject(cObject*);
+
     private:
         /* Initialization */
         void initSDL();
@@ -66,6 +69,8 @@ namespace __game__ {
 
         /* Assignment specific shit which I'll probably say is TERRIBLE */
         std::vector<double> altitudes;
+        GLuint* textures;
+        const int maxText = 1;
 
         /* Window storage */
         SDL_Window* mWindow;

@@ -11,6 +11,7 @@
 
 #include "globals.h"
 #include "logger.hpp"
+#include "game.h"
 
 namespace __game__ {
 
@@ -30,11 +31,12 @@ namespace __game__ {
         vec3 getPoint(int);
         void setPoint(int, vec3);
 
-        cObject* parent;
+		cObject* parent;
 
         void addChild(cObject*);
         void addPoint(vec3);
         void addPoint(vec3, vec3); //Point, normal
+        void addPoint(vec3, vec3, vec3); //Point, normal, Texture
 
         /* All rotations are around axis. Be nice. GEOFF THAT MEANS YOU */
         /* Sets the parent nicely without changing the global position */
@@ -64,20 +66,30 @@ namespace __game__ {
 
         bool hidden = 0; //ResidentSleeper
 
+		void addTex(vec3);
+
+        void setTexID(int);
+
+        void setMainObject(cMain*); //Not sure if I can hack it like this....
+
     protected:
 
         uint32_t glFlag;
+        int texID;
+		std::vector<vec3> texture; //Just "texture" things as solid colours ATM
         std::vector<vec3> points;
         std::vector<vec3> normals; //TO ONLY BE USED WITH VERTEX NORMALS (otherwise I will emasculate you, Geoff.
 
         std::vector<cObject*> children;
-
+		
         /* Local translation */
         vec3 translation;
         vec3 rotation;
         double scale = 1; //Everything can only be scaled in a nice way because reasons.
 
         std::string name;
+
+        cMain* topDog; //Why am I doing this to myself
 
     };
 
@@ -104,7 +116,7 @@ namespace __game__ {
 
     class cTree : public cObject {
     public:
-        cTree(double, double, double);
+        cTree(double, double, double, GLuint);
 
     private:
         void addPoints(double); //Proposed heights, will be built when started

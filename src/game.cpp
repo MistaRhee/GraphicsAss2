@@ -166,6 +166,70 @@ namespace __game__ {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 7. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
+        glEnable(GL_TEXTURE_2D);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 8. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        /* Load the current texture */
+        this->textures = new GLuint[this->maxText];
+        
+        SDL_Surface* TextureImage;
+        TextureImage = NULL;
+        if ((TextureImage = SDL_LoadBMP("system/data/boringTexture.bmp"))) {
+            glGenTextures(1, &(this->textures[0]));
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 9. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glBindTexture(GL_TEXTURE_2D, this->textures[0]);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 10. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glTexImage2D(
+                GL_TEXTURE_2D, 0, 3,
+                TextureImage->w, TextureImage->h,
+                0, GL_BGR, GL_UNSIGNED_BYTE,
+                TextureImage->pixels
+            );
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 11. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 12. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 13. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 14. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 15. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+            glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+            err = glGetError();
+            if (err != GL_NO_ERROR) {
+                this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 15. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+            }
+        }
+        else {
+            this->debugError(std::string("[game.cpp] Error: Failed to load texture, system/data/boringTexture.bmp"));;
+        }
+
+        if (TextureImage) SDL_FreeSurface(TextureImage);
+
         this->debugInformation("[game.cpp] Info: Finished initializing GL");
     }
 
@@ -206,10 +270,10 @@ namespace __game__ {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         /* KappaPride */
-        
+
         this->mCamera->render();
 
-        if(this->debugLevel < 2) this->ROOT->render();
+        if (this->debugLevel < 2) this->ROOT->render();
         else this->ROOT->render(this->mLog);
         /* End rendering components */
         /* Update the screen */

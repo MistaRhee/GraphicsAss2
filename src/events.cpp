@@ -140,7 +140,11 @@ namespace __game__ {
                 break;
 
             case SDLK_SPACE: //debugging stuffs
-                this->mCamera->printDebug();
+                //this->mCamera->printDebug();
+                break;
+
+            case SDLK_ESCAPE:
+                sudoku();
                 break;
 
             default: //Unhandled key case
