@@ -58,6 +58,10 @@ namespace __game__ {
         );
     }
 
+    void cCamera::update(cObject* ROOT) {
+        this->translate(this->velocity);
+    }
+
     void cCamera::render(__logger::cLogger* mLog) {
         mLog->log("[object.cpp] Info: Rendering object " + this->name);
         glMatrixMode(GL_MODELVIEW);
@@ -87,8 +91,13 @@ namespace __game__ {
         glPopMatrix();
     }
 
-    void cCamera::setThirdPersonDist(double dist) {
-        this->thirdPersonDist = dist;
+    void cCamera::setThirdPerson(bool t) {
+        if (t) {
+            this->setTranslation(vec3(0, 0, this->thirdPersonDist));
+        }
+        else {
+            this->setTranslation(vec3(0, 0, 0));
+        }
     }
 }
 

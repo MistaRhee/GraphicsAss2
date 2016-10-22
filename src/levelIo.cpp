@@ -31,20 +31,7 @@ namespace __game__ {
         if (doc.HasMember("width")) this->width = doc["width"].GetInt();
         if (doc.HasMember("depth")) this->depth = doc["depth"].GetInt();
         if (doc.HasMember("sunlight")) {
-            //TODO: Tweak numbers to make it look good.
-            float globalAmb[] = { 0.2f, 0.2f, 0.2f, 0.1f };
-            glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
-
-            float localAmb[] = {0.1f, 0.1f, 0.1f, 1.0f};
-            float localDiff[] = {1.0f, 1.0f, 1.0f, 1.0f};
-            float localSpec[] = {1.0f, 1.0f, 1.0f, 1.0f};
-            /* FIXME: Unfuck this shit */
-            float position[] = { -doc["sunlight"][0].GetFloat(), -doc["sunlight"][1].GetFloat(), -doc["sunlight"][2].GetFloat(), 1.0f };
-
-            glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
-            glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
-            glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
-            glLightfv(GL_LIGHT0, GL_POSITION, position);
+            this->sunlight = vec3(doc["sunlight"][0].GetFloat(), doc["sunlight"][1].GetFloat(), doc["sunlight"][2].GetFloat());
         }
         if (doc.HasMember("altitude")) {
             const rapidjson::Value& alt = doc["altitude"];
@@ -54,14 +41,14 @@ namespace __game__ {
             cMap* mMap = new cMap(this->ROOT);
             mMap->setName("mMap");
             mMap->setTexID(this->textures[0]);
-            for (int i = 0, z = doc["width"].GetInt()-1; i < z; i++) {
-                for (int j = 0, y = doc["depth"].GetInt()-1; j < y; j++) {
+            for (int i = 0; i < width-1; i++) {
+                for (int j = 0; j < depth-1; j++) {
                     /* Add middle then the four corners */
-                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*(z+1)] + altitudes[i+1+j*(z+1)] + altitudes[i+(j+1)*(z+1)] + altitudes[i+1+(j+1)*(z+1)])/4, (j+0.5))); //Middle point is interpolated from the corners
-                    mMap->addPoint(vec3(i, altitudes[i+j*(z+1)], j));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*(z+1)], j));
-                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*(z+1)], (j+1)));
-                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*(z+1)], (j+1)));
+                    mMap->addPoint(vec3(i+0.5, (altitudes[i+j*width] + altitudes[i+1+j*(width)] + altitudes[i+(j+1)*(width)] + altitudes[i+1+(j+1)*(width)])/4, (j+0.5))); //Middle point is interpolated from the corners
+                    mMap->addPoint(vec3(i, altitudes[i+j*(width)], j));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+j*(width)], j));
+                    mMap->addPoint(vec3(i, altitudes[i+(j+1)*(width)], (j+1)));
+                    mMap->addPoint(vec3(i+1, altitudes[i+1+(j+1)*(width)], (j+1)));
                 }
             }
         }
@@ -74,7 +61,6 @@ namespace __game__ {
                 int fz = floor(z);
                 int cx = ceil(x);
                 int cz = ceil(z);
-                int width = doc["width"].GetInt();
                 cTree* mTree = new cTree(
                     x, z,
                     std::max(

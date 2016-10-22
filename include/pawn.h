@@ -21,9 +21,12 @@ namespace __game__ {
 
         void rotate(double, vec3) override;
 
-        void setThirdPersonDist(double);
+        bool collidesWith(cObject*) override { return false; };
+
+        void update(cObject*) override; //Overloaded for free cam
+        void setThirdPerson(bool);
     private:
-        double thirdPersonDist;
+        const double thirdPersonDist = 2.5; //Camera gets translated 2.5 units backwards
 
     };
 
@@ -34,16 +37,20 @@ namespace __game__ {
         ~cPawn();
 
         void setCamera(cCamera*);
-        void dropCamera();
+        void dropCamera(cObject*); //What to bind the camera to. ROOT if it's not going to hurt anyone....
 
+        void setHeight(double);
+        vec3 getPos() { return this->translation; }
         void setThirdPerson(bool);
 
-    protected:
+        void move(vec3) override;
 
+        void printDebug();
+
+    protected:
         cCamera* mCamera;
 
-        std::map<std::string, cActor> models; //First person/third person
-
+        const double maxSpeed = 1;
     private:
         void hack();
     };

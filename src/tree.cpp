@@ -40,12 +40,18 @@ namespace __game__ {
             this->mCylinder->addPoint(vec3(x0, h, y0), vec3(x0, 0, y0), vec3(0.25, 0, 0));
             this->mCylinder->addPoint(vec3(x1, h, y1), vec3(x1, 0, y1), vec3(0.5, 0, 0));
         }
+        hitBox* chb = new hitBox;
+        chb->origin = vec3(0.1, 0, 0.1);
+        chb->xDir = vec3(0.2, 0, 0);
+        chb->yDir = vec3(0, h, 0);
+        chb->zDir = vec3(0, 0, 0.2);
+        this->mCylinder->setHitBox(chb);
 
         this->mLeaves = new cObject(this);
         this->mLeaves->translate(vec3(0, h, 0)); //Move the sphere up
         this->mLeaves->setName("Tree Leaves");
         this->mLeaves->setGLFlag(GL_TRIANGLE_FAN);
-        this->mCylinder->setTexID(this->texID);
+        this->mLeaves->setTexID(this->texID); //No hitbox for leaves
 
         for (int i = 0; i < 10; i++) {
             double phi = 2 * M_PI*i / 10;

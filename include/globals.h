@@ -5,7 +5,7 @@
 /* For the lazy me -_- */
 /* Just dump "nice to have" global datastructures here */
 struct vec3 {
-	vec3() : vec3(0,0,0){}
+    vec3() : vec3(0, 0, 0) {}
     vec3(double) : vec3(0, 0, 0) {}
     vec3(double x, double y, double z) {
         this->x = x;
@@ -48,7 +48,7 @@ struct vec3 {
     }
 
     friend bool operator!=(const vec3& lhs, const vec3& rhs) {
-        return(!(lhs==rhs));
+        return(!(lhs == rhs));
     }
 
     double dot(vec3 rhs) {
@@ -59,3 +59,20 @@ struct vec3 {
     double y;
     double z;
 };
+
+struct hitBox {
+    vec3 xDir, yDir, zDir;
+    vec3 originDisp; //smallest x, y, z corner
+    vec3 origin;
+
+    bool intersects(hitBox other) {
+        if (origin.x > (other.origin + other.xDir).x) return false;
+        if (other.origin.x < (origin + xDir).x) return false;
+        if (origin.y > (other.origin + other.yDir).y) return false;
+        if (other.origin.y < (origin + yDir).y) return false;
+        if (origin.z > (other.origin + other.zDir).z) return false;
+        if (other.origin.z < (origin + zDir).z) return false;
+        return true;
+    }
+};
+

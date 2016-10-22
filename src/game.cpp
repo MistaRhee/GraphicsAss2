@@ -19,10 +19,18 @@ namespace __game__ {
         this->ROOT = new cObject();
         this->ROOT->setName("ROOT");
         this->ROOT->hidden = true;
+
         this->mCamera = new cCamera(this->ROOT, vec3(0, 0, 0), vec3(0, 0, 0), 1); 
         this->mCamera->setName("Camera");
 
-        this->mActors.insert(std::make_pair("Camera", this->mCamera));
+        this->currPawn = new cPawn();
+        this->currPawn->setParent(this->ROOT);
+        this->currPawn->setName("Pawn");
+        this->currPawn->setThirdPerson(false);
+        this->currPawn->setCamera(this->mCamera);
+
+        this->mActors.push_back(this->mCamera);
+        this->mActors.push_back(this->currPawn);
 
         parseArgs(argc, argv);
     }
@@ -113,7 +121,7 @@ namespace __game__ {
         /* Set the perspective camera. */
         glLoadIdentity();
 //TODO: Tweak numbers to make stuff look pretty
-        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.3, 5); //Can see two "chunks" above
+        gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.3, 8); //Can see two "chunks" above
 
         err = glGetError();
         if (err != GL_NO_ERROR) {
@@ -272,6 +280,21 @@ namespace __game__ {
         /* KappaPride */
 
         this->mCamera->render();
+        //TODO: Tweak numbers to make it look good.
+        float globalAmb[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
+
+        float localAmb[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+        float localDiff[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        float localSpec[] = { 1.0f, 1.0f, 1.0f, 0.1f };
+        /* FIXME: Unfuck this shit */
+        float position[] = { this->sunlight.x, this->sunlight.y, this->sunlight.z, 0.0f };
+
+        glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, localDiff);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, localSpec);
+        glLightfv(GL_LIGHT0, GL_POSITION, position);
+
 
         if (this->debugLevel < 2) this->ROOT->render();
         else this->ROOT->render(this->mLog);
@@ -282,8 +305,12 @@ namespace __game__ {
 
     void cMain::update() {
         for (auto it : this->mActors) {
-            it.second->update();
+            it->update(this->ROOT);
         }
+
+        vec3 pos = this->currPawn->getPos();
+        if ((round(pos.x) + round(pos.z)*width) < this->altitudes.size() && (round(pos.x) + round(pos.z)*width) >= 0) this->currPawn->setHeight(this->altitudes[round(pos.x) + round(pos.z)*width]);
+        else this->currPawn->setHeight(0);
     }
 
 }

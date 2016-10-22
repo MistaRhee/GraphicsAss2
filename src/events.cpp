@@ -13,7 +13,7 @@ namespace __game__ {
                         e.key.keysym.sym,
                         e.key.type == SDL_KEYDOWN,
                         e.key.keysym.mod
-                        );
+                    );
                     break;
 
                 case SDL_KEYUP:
@@ -21,7 +21,7 @@ namespace __game__ {
                         e.key.keysym.sym,
                         e.key.type == SDL_KEYDOWN,
                         e.key.keysym.mod
-                        );
+                    );
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
@@ -30,7 +30,7 @@ namespace __game__ {
                         e.button.y,
                         e.button.button,
                         e.button.type == SDL_MOUSEBUTTONDOWN
-                        );
+                    );
                     break;
 
                 case SDL_MOUSEBUTTONUP:
@@ -39,14 +39,14 @@ namespace __game__ {
                         e.button.y,
                         e.button.button,
                         e.button.type == SDL_MOUSEBUTTONDOWN
-                        );
+                    );
                     break;
 
                 case SDL_MOUSEWHEEL:
                     handleUserScroll(
                         e.wheel.x,
                         e.wheel.y
-                        );
+                    );
                     break;
 
                 case SDL_MOUSEMOTION:
@@ -55,7 +55,7 @@ namespace __game__ {
                         e.motion.yrel,
                         GAME_MOUSE_MOVE,
                         0 //Ignored anyway because no button is found
-                        );
+                    );
                     break;
 
                 case SDL_QUIT:
@@ -71,76 +71,68 @@ namespace __game__ {
 
     void cMain::handleUserKeyboard(SDL_Keycode key, bool isDown, uint32_t modifiers) { //Too lazy to implement frame-independent movement.
         /* Hardcoding in the movement keys ATM due to laziness */
-        /* -.1 y for gravity */
         switch (key) {
             case SDLK_w:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, 0, 0.001));
+                    if (isDown) this->mCamera->move(vec3(0, 0, 0.001));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(0, 0, 0.001));
+                    if (isDown) this->currPawn->move(vec3(0, 0, 0.001));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_s:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, 0, -0.001));
+                    if (isDown) this->mCamera->move(vec3(0, 0, -0.001));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(0, 0, -0.001));
+                    if (isDown) this->currPawn->move(vec3(0, 0, -0.001));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_a:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0.001, 0, 0));
+                    if (isDown) this->mCamera->move(vec3(0.001, 0, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(0.001, 0, 0));
+                    if (isDown) this->currPawn->move(vec3(0.001, 0, 0));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_d:
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(-0.001, 0, 0));
+                    if (isDown) this->mCamera->move(vec3(-0.001, 0, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
                 }
                 else {
-                    if(isDown) this->currPawn->move(vec3(-0.001, 0, 0));
+                    if (isDown) this->currPawn->move(vec3(-0.001, 0, 0));
                     else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
-            case SDLK_LSHIFT:
+            case SDLK_LSHIFT: //Pawn can't fly
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, 0.001, 0));
+                    if (isDown) this->mCamera->move(vec3(0, 0.001, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
-                }
-                else {
-                    if(isDown) this->currPawn->move(vec3(0, 0.001, 0));
-                    else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
-            case SDLK_RSHIFT:
+            case SDLK_RSHIFT: //Porn also can't fly
                 if (this->currPawn == NULL) {
-                    if(isDown) this->mCamera->move(vec3(0, -0.001, 0));
+                    if (isDown) this->mCamera->move(vec3(0, -0.001, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));
-                }
-                else {
-                    if(isDown) this->currPawn->move(vec3(0, -0.001, 0));
-                    else this->currPawn->setSpeed(vec3(0, 0, 0));
                 }
                 break;
 
             case SDLK_SPACE: //debugging stuffs
                 //this->mCamera->printDebug();
+                this->currPawn->printDebug();
                 break;
 
             case SDLK_ESCAPE:
@@ -166,13 +158,9 @@ namespace __game__ {
 
             case GAME_MOUSE_MOVE:
                 /* Rotate the screen in accordance to mouse dx, dy */
-                if (this->currPawn == NULL) {
-                    this->mCamera->rotate(-x, vec3(0, 1, 0));
-                    this->mCamera->rotate(y, vec3(1, 0, 0));
-                }
-                else {
-
-                }
+                this->mCamera->rotate(-x, vec3(0, 1, 0));
+                this->mCamera->rotate(y, vec3(1, 0, 0));
+                /* Pawn doesn't ever get rotated */
                 break;
 
             default:
@@ -181,7 +169,13 @@ namespace __game__ {
     }
 
     void cMain::handleUserScroll(int dx, int dy) { //Only care about the forwards/backwards scroll movement to control the camera (first-person -> third person)
+        if (dy < 0) { //Third person
+            this->currPawn->setThirdPerson(true);
 
+        }
+        else { //First person
+            this->currPawn->setThirdPerson(false);
+        }
     }
 
 }

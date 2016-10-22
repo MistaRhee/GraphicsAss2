@@ -11,7 +11,6 @@
 
 #include "globals.h"
 #include "logger.hpp"
-#include "game.h"
 
 namespace __game__ {
 
@@ -70,7 +69,10 @@ namespace __game__ {
 
         void setTexID(int);
 
-        void setMainObject(cMain*); //Not sure if I can hack it like this....
+        void setHitBox(hitBox*);
+        void updateHB();
+
+        virtual bool collidesWith(cObject*);
 
     protected:
 
@@ -89,8 +91,7 @@ namespace __game__ {
 
         std::string name;
 
-        cMain* topDog; //Why am I doing this to myself
-
+        hitBox* hb;
     };
 
     /* Assignment specific stuff */
@@ -100,6 +101,7 @@ namespace __game__ {
         cMap(cObject* parent) : cObject(parent) {}
         void render() override;
         void render(__logger::cLogger*) override;
+        bool collidesWith(cObject*) override { return false; }
     };
 
     class cRoad : public cObject {

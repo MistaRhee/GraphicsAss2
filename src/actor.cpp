@@ -21,9 +21,9 @@ namespace __game__ {
 
     cActor::~cActor() {}
 
-    void cActor::update() {
-        this->translate(this->velocity);
-        /* Check collisions, adjust accordingly */
+    void cActor::update(cObject* ROOT) {
+        if (!ROOT->collidesWith(this)) this->translate(this->velocity);
+        else printf("Collision prevents %s from moving \n", this->name.c_str());
     }
 
     void cActor::move(vec3 a) {
@@ -44,7 +44,7 @@ namespace __game__ {
         z.x *= a.z;
         z.y *= a.z;
         z.z *= a.z;
-        this->velocity += z+x+y;
+        this->velocity += z + x + y;
         glPopMatrix();
     }
 

@@ -19,6 +19,7 @@ namespace __game__ {
         this->rotation = vec3(0, 0, 0);
         this->scale = 1;
         this->parent = NULL;
+        this->hb = NULL;
     }
 
     cObject::cObject(cObject* parent) : cObject() {
@@ -158,7 +159,7 @@ namespace __game__ {
     }
 
     void cObject::setParent(cObject* p) { //Should never be needed -> Only to be abused by me later -_-
-        this->parent = parent;
+        this->parent = p;
         p->addChild(this);
         /* Do changes to translation here*/
     }
@@ -200,6 +201,8 @@ namespace __game__ {
         printf("Translation: %f %f %f \n", this->translation.x, this->translation.y, this->translation.z);
         printf("Rotation (x, y, z): %f %f %f \n", this->rotation.x, this->rotation.y, this->rotation.z);
         printf("Scale: %.2f\n", this->scale);
+        if (this->parent != NULL) printf("Parent: %s \n", this->parent->getName().c_str());
+        else printf("Parent: N/A (is root) \n");
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -228,7 +231,27 @@ namespace __game__ {
         this->texID = id;
     }
 
-    void cObject::setMainObject(cMain* mMain) {
-        this->topDog = mMain;
+    void cObject::setHitBox(hitBox* in) {
+        this->hb = in;
+    }
+
+    void cObject::updateHB() {
+        this->hb->origin = this->translation + this->hb->originDisp;
+    }
+
+    bool cObject::collidesWith(cObject* other) {
+        if (this->hb) {
+            this->updateHB();
+            other->updateHB();
+            bool rVal = false;
+            for (auto ch : this->children) {
+                if (ch->collidesWith(other)) {
+                    rVal = true;
+                    break;
+                }
+            }
+            return (this->hb->intersects(*(other->hb)) | rVal);
+        }
+        return false;
     }
 }
