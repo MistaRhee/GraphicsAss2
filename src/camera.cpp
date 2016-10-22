@@ -7,7 +7,7 @@ Apparently opengl stores the modelview matrix as
 2  6  10 14
 3  7  11 15
 
-Fuck. Everything.
+
 */
 
 namespace __game__ {
@@ -96,7 +96,7 @@ namespace __game__ {
         gluLookAt(
             mMatrix[12], mMatrix[13], mMatrix[14], 
             mMatrix[8], mMatrix[9], mMatrix[10],
-            0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it. #FuckGeoff
+            0, 0, 1 //Shouldn't have rotation around z-axis. Even if it does, I will ignore it.
         );
         glPopMatrix();
     }

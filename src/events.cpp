@@ -123,7 +123,7 @@ namespace __game__ {
                 }
                 break;
 
-            case SDLK_RSHIFT: //Porn also can't fly
+            case SDLK_RSHIFT: 
                 if (this->currPawn == NULL) {
                     if (isDown) this->mCamera->move(vec3(0, -0.001, 0));
                     else this->mCamera->setSpeed(vec3(0, 0, 0));

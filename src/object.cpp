@@ -7,7 +7,6 @@ Apparently opengl stores the modelview matrix as
 2  6  10 14
 3  7  11 15
 
-Fuck. Everything.
 */
 
 namespace __game__ {
