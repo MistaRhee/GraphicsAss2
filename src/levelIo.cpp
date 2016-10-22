@@ -88,12 +88,13 @@ namespace __game__ {
             for (unsigned int i = 0; i < doc["roads"].Size(); i++) {
                 std::vector<std::pair<double, double> > points;
                 for (unsigned int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
-                    double x = doc["roads"][i]["spine"][j++].GetDouble();
-                    double z = doc["roads"][i]["spine"][j].GetDouble();
-                    points.push_back(std::make_pair(x, z));;
+					double x = doc["roads"][i]["spine"][j].GetDouble();
+					double z = doc["roads"][i]["spine"][++j].GetDouble();
+                    points.push_back(std::make_pair(x, z));
                 }
                 cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, altitudes, width);
                 mRoad->setName("road");
+				mRoad->setTexID(this->textures[0]);
                 this->ROOT->addChild(mRoad);
             }
         }

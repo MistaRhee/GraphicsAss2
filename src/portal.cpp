@@ -8,7 +8,7 @@ namespace __game__ {
     }
 
     bool cPortal::collidesWith(cObject* obj) {
-        if(obj->hb)
+
     }
 
 }

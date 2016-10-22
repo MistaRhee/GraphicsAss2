@@ -110,6 +110,7 @@ namespace __game__ {
         
         double getWidth();
         void addSegment(std::pair<double, double>, std::pair<double, double>, std::pair<double, double>, std::vector<double>, double); //Starts at A, interpolates B/C
+		void render() override;
 
     private:
         double width;
