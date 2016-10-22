@@ -73,6 +73,7 @@ namespace __game__ {
                 glVertex3d(c.x, c.y, c.z);
             }
             glEnd();
+            glBindTexture(GL_TEXTURE_2D, 0);
         }
         glPopMatrix();
     }

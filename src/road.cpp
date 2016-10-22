@@ -15,13 +15,11 @@ double b(int i, double t) {
     }
 }
 
-double dist(double x0, double y0, double x1, double y1) {
+inline double dist(double x0, double y0, double x1, double y1) {
     return sqrt((x0 - x1)*(x0 - x1) + (y0 - y1)*(y0 - y1));
 }
 
 namespace __game__ {
-
-    //TODO: Overload the render function and render the width of the road (or just change the add segment to have the nice little road with widths there. IDK */
 
     cRoad::cRoad(double width, std::vector<std::pair<double, double> > inPoints, std::vector<double> altitudes, double mapWidth) {
         this->width = width;
@@ -69,7 +67,5 @@ namespace __game__ {
         }
         this->prevStart = end;
     }
-
-    //TODO: Finish this
 
 }

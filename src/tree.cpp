@@ -4,9 +4,9 @@ namespace __game__ {
 
     cTree::cTree(double x, double z, double height, GLuint pap) {
         /* Height is "minimum" height */
+        this->setTexID(pap);
         addPoints(height + ((double)(rand() % 2)) + 1);
         this->translation = vec3(x, 0, z);
-        this->texID = pap;
     }
 
     void cTree::addPoints(double h) {

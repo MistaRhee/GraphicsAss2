@@ -20,6 +20,7 @@ namespace __game__ {
         this->scale = 1;
         this->parent = NULL;
         this->hb = NULL;
+        this->texID = 0;
     }
 
     cObject::cObject(cObject* parent) : cObject() {
@@ -72,7 +73,7 @@ namespace __game__ {
         glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
         if (!hidden) {
-            glBindTexture(GL_TEXTURE_2D, this->texID);
+            if(this->texID != 0) glBindTexture(GL_TEXTURE_2D, this->texID);
             glBegin(glFlag);
             {
                 if (this->normals.size() == this->points.size() && this->texture.size() == this->points.size()) {
@@ -87,6 +88,7 @@ namespace __game__ {
                 }
             }
             glEnd();
+            if(this->texID != 0) glBindTexture(GL_TEXTURE_2D, this->texID);
         }
         for (auto ch : this->children) {
             ch->render(mLog);
@@ -104,10 +106,10 @@ namespace __game__ {
         glRotated(this->rotation.x, 1, 0, 0);
         glScaled(this->scale, this->scale, this->scale);
         if (!hidden) {
+            if(this->texID != 0) glBindTexture(GL_TEXTURE_2D, this->texID);
             glBegin(glFlag);
             {
                 if (this->normals.size() == this->points.size() && this->texture.size() == this->points.size()) {
-                    glBindTexture(GL_TEXTURE_2D, this->texID);
                     for (int i = 0; i < this->points.size(); i++) {
                         glTexCoord2d(this->texture[i].x, this->texture[i].y); //z is ignored because it's a 2d vector
                         glNormal3d(this->normals[i].x, this->normals[i].y, this->normals[i].z);
@@ -119,6 +121,7 @@ namespace __game__ {
                 }
             }
             glEnd();
+            if(this->texID != 0) glBindTexture(GL_TEXTURE_2D, 0);
         }
         for (auto ch : this->children) {
             if (ch->getName() == "Camera") continue;

@@ -131,15 +131,30 @@ namespace __game__ {
 
     class cPortal : public cObject {
     public:
-        cPortal(double, double, double, double, double); //Start x0z0, start x1,z1, end x0z0, endx1z1, height
+        cPortal(std::pair<vec3, vec3>, double); //Location, height
 
         bool collidesWith(cObject*) override;
+        void addPartner(cPortal*);
 
     private:
-        std::pair<vec3, vec3> start; //They work in both directions I assume
-        std::pair<vec3, vec3> end;
+        std::pair<vec3, vec3> location;
+        cPortal* partner; //Where this portal leads to
 
         double height;
+    };
+
+    class cBush : public cObject {
+    public:
+        cBush(double, double);
+
+        void setHeight(double h);
+
+        void render() override;
+
+    private:
+        int vertShader;
+        int fragShader;
+        int shaderProgram;
     };
 
 }

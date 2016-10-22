@@ -54,7 +54,7 @@ namespace __game__ {
     }
 
     void cPawn::hack() { //Just your average cube, walking about
-        this->glFlag = GL_TRIANGLE_FAN;
+        this->glFlag = GL_QUADS;
 
         /* Front */
         addPoint(vec3(0, 0, 0), vec3(0, 0, 1));

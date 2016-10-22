@@ -120,7 +120,6 @@ namespace __game__ {
         glMatrixMode(GL_PROJECTION);
         /* Set the perspective camera. */
         glLoadIdentity();
-//TODO: Tweak numbers to make stuff look pretty
         gluPerspective(100, GAME_WINDOW_WIDTH/GAME_WINDOW_HEIGHT, 0.3, 8); //Can see two "chunks" above
 
         err = glGetError();
@@ -166,6 +165,12 @@ namespace __game__ {
         err = glGetError();
         if (err != GL_NO_ERROR) {
             this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 6. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
+        }
+
+        glEnable(GL_NORMALIZE);
+        err = glGetError();
+        if (err != GL_NO_ERROR) {
+            this->debugError(std::string("[game.cpp] Error: Failed to initialize OpenGL 7. Error: ") + std::string(reinterpret_cast<const char*>(glewGetErrorString(err))));
         }
 
         glEnable(GL_NORMALIZE);
@@ -238,6 +243,12 @@ namespace __game__ {
 
         if (TextureImage) SDL_FreeSurface(TextureImage);
 
+        err = glewInit();
+        if (err != GLEW_OK)
+            exit(1); // or handle the error in a nicer way
+        if (!GLEW_VERSION_2_1)  // check that the machine supports the 2.1 API.
+            exit(1); // or handle the error in a nicer way
+
         this->debugInformation("[game.cpp] Info: Finished initializing GL");
     }
 
@@ -280,14 +291,12 @@ namespace __game__ {
         /* KappaPride */
 
         this->mCamera->render();
-        //TODO: Tweak numbers to make it look good.
         float globalAmb[] = { 0.5f, 0.5f, 0.5f, 1.0f };
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
 
         float localAmb[] = { 0.5f, 0.5f, 0.5f, 1.0f };
         float localDiff[] = { 1.0f, 1.0f, 1.0f, 1.0f };
         float localSpec[] = { 1.0f, 1.0f, 1.0f, 0.1f };
-        /* FIXME: Unfuck this shit */
         float position[] = { this->sunlight.x, this->sunlight.y, this->sunlight.z, 0.0f };
 
         glLightfv(GL_LIGHT0, GL_AMBIENT, localAmb);
