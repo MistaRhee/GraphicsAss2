@@ -128,7 +128,27 @@ namespace __game__ {
                 b->setHeight(y);
                 this->ROOT->addChild(b);
             }
-            /* Default start at 0, 0, h, where h is the altitude of 0, 0*/
+
+        }
+        /* Default start at 0, 0, h, where h is the altitude of 0, 0*/
+
+        if (doc.HasMember("portal")) {
+            double height = doc["portal"]["height"].GetDouble();
+            cPortal* a = new cPortal(std::make_pair(vec3(doc["portal"]["connectionA"]["x0"].GetDouble(), doc["portal"]["connectionA"]["z0"].GetDouble(), 0), vec3(doc["portal"]["connectionA"]["x1"].GetDouble(), doc["portal"]["connectionA"]["z1"].GetDouble(), 0)), height, altitudes, width);
+            cPortal* b = new cPortal(std::make_pair(vec3(doc["portal"]["connectionB"]["x0"].GetDouble(), doc["portal"]["connectionB"]["z0"].GetDouble(), 0), vec3(doc["portal"]["connectionB"]["x1"].GetDouble(), doc["portal"]["connectionB"]["z1"].GetDouble(), 0)), height, altitudes, width);
+
+            a->addPartner(b);
+            b->addPartner(a);
+
+            a->setTexID(this->textures[0]);
+            b->setTexID(this->textures[0]);
+
+            this->ROOT->addChild(a);
+            this->ROOT->addChild(b);
+
+            this->mPortals.push_back(a);
+            this->mPortals.push_back(b);
+
         }
     }
 }

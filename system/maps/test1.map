@@ -42,13 +42,13 @@
 		
 		"portal" :
 		{
-			"height" : 1,
+			"height" : 2,
 			"connectionA" : 
 			{	
+				"x1" : 0,
+				"z1" : 0,
 				"x0" : 0,
-				"z0" : 0,
-				"x1" : 1,
-				"z1" : 1
+				"z0" : 0.5
 			},
 			"connectionB" : 
 			{

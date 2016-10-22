@@ -99,7 +99,6 @@ namespace __game__ {
     void cObject::render() {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
-        double mMat[16];
         glTranslated(this->translation.x, this->translation.y, this->translation.z);
         glRotated(this->rotation.z, 0, 0, 1);
         glRotated(this->rotation.y, 0, 1, 0);

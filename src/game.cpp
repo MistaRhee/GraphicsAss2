@@ -320,6 +320,10 @@ namespace __game__ {
         vec3 pos = this->currPawn->getPos();
         if ((round(pos.x) + round(pos.z)*width) < this->altitudes.size() && (round(pos.x) + round(pos.z)*width) >= 0) this->currPawn->setHeight(this->altitudes[round(pos.x) + round(pos.z)*width]);
         else this->currPawn->setHeight(0);
+
+        for (auto it : this->mPortals) {
+            if (it->passes(pos)) it->teleport(this->currPawn);
+        }
     }
 
 }

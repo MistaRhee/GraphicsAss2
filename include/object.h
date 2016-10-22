@@ -132,10 +132,17 @@ namespace __game__ {
 
     class cPortal : public cObject {
     public:
-        cPortal(std::pair<vec3, vec3>, double); //Location, height
+        cPortal(std::pair<vec3, vec3>, double, std::vector<double>, double); //Location, height
 
         bool collidesWith(cObject*) override;
         void addPartner(cPortal*);
+
+        void teleport(cObject*);
+        void setHeight(std::vector<double>, double);
+
+        bool passes(vec3);
+
+        vec3 perp;
 
     private:
         std::pair<vec3, vec3> location;

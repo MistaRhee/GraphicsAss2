@@ -65,6 +65,7 @@ namespace __game__ {
         cCamera* mCamera; //Will always have a value. For quick access for third person
         cPawn* currPawn; //If not assigned, then free camera which can fly through. Rapid collision detection stuffs ECKS DEE
         std::vector<cActor*> mActors;
+        std::vector<cPortal*> mPortals;
 
         /* Assignment specific shit which I'll probably say is TERRIBLE */
         vec3 sunlight;
