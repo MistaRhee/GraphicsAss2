@@ -21,11 +21,13 @@ double dist(double x0, double y0, double x1, double y1) {
 
 namespace __game__ {
 
-    cRoad::cRoad(double width, std::vector<std::pair<double, double> > inPoints, std::vector<double> altitudes, double mapWidth){
+    //TODO: Overload the render function and render the width of the road (or just change the add segment to have the nice little road with widths there. IDK */
+
+    cRoad::cRoad(double width, std::vector<std::pair<double, double> > inPoints, std::vector<double> altitudes, double mapWidth) {
         this->width = width;
         setGLFlag(GL_TRIANGLE_STRIP);
         this->prevStart = inPoints[0];
-        for (int i = 1; i < inPoints.size();) {
+        for (unsigned int i = 1; i < inPoints.size();) {
             addSegment(inPoints[i++], inPoints[i++], inPoints[i++], altitudes, mapWidth);
         }
     }
@@ -34,38 +36,40 @@ namespace __game__ {
         return this->width;
     }
 
-    /* Estimate the curve with ~10 points, see how good that looks */
+    /* Estimate the curve with 16 points, see how good that looks */
     void cRoad::addSegment(std::pair<double, double> controla, std::pair<double, double> controlb, std::pair<double, double> end, std::vector<double> alts, double mWidth) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 16; i++) {
             /* Interpolate the "appropriate" height */
-            double x = b(0, i / 10) * controla.first + b(1, i / 10) * controlb.first + b(3, i / 10) * end.first;
-            double z = b(0, i / 10) * controla.second + b(1, i / 10) * controlb.second + b(3, i / 10) * end.second;
+            double x = b(0, i / 16) * controla.first + b(1, i / 16) * controlb.first + b(3, i / 16) * end.first;
+            double z = b(0, i / 16) * controla.second + b(1, i / 16) * controlb.second + b(3, i / 16) * end.second;
             double rx = x - floor(x);
             double rz = z - floor(z);
 
-            double midAlt = (alts[rx + rz*mWidth] + alts[rx + 1 + rz*mWidth] + alts[rx + (rz + 1)*mWidth] + alts[rx + 1 + (rz + 1)*mWidth]) / 4);
+            double midAlt = (alts[floor(x) + floor(z)*mWidth] + alts[ceil(x) + floor(z)*mWidth] + alts[floor(x) + ceil(z)*mWidth] + alts[ceil(x) + ceil(z)*mWidth]) / 4;
 
             /* I'm a monster -_- */
             double y = 0.001;
-            if ((x / z) > 1) {
-                if ((z / x) > 1) {
-                    y += (dist(rx, rz, 0, 1) * alts[floor(x)+ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 1, 1) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 1, 1) + dist(rx, rz, 0.5, 0.5));
+            if (x > z) {
+                if (x > 1 - z) {
+                    y += (dist(rx, rz, 0, 1) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 1, 1) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 1, 1) + dist(rx, rz, 0.5, 0.5));
                 }
                 else {
-                    y += (dist(rx, rz, 1, 0) * alts[floor(x)+ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 1, 1) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 1, 1) + dist(rx, rz, 0.5, 0.5));
+                    y += (dist(rx, rz, 1, 0) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 1, 1) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 1, 1) + dist(rx, rz, 0.5, 0.5));
                 }
             }
             else {
-                if ((z / x) > 1) {
-                    y += (dist(rx, rz, 0, 1) * alts[floor(x)+ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
+                if (x > 1 - z) {
+                    y += (dist(rx, rz, 0, 1) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 0, 1) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
                 else {
-                    y += (dist(rx, rz, 1, 0) * alts[floor(x)+ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
+                    y += (dist(rx, rz, 1, 0) * alts[floor(x) + ceil(z)*mWidth] + dist(rx, rz, 0.5, 0.5) * midAlt + dist(rx, rz, 0, 0) * alts[ceil(x) + ceil(z)*mWidth]) / (dist(rx, rz, 1, 0) + dist(rx, rz, 0, 0) + dist(rx, rz, 0.5, 0.5));
                 }
             }
             this->points.push_back(vec3(x, y, z));
         }
         this->prevStart = end;
     }
+
+    //TODO: Finish this
 
 }

@@ -9,12 +9,11 @@ namespace __game__ {
 
     public:
         cActor();
-        cActor(cObject*);
         ~cActor();
 
-        void update();
+        virtual void update(cObject*);
 
-        void move(vec3); //Changes increases velocity by ddx
+        virtual void move(vec3); //Changes increases velocity by ddx
         void setSpeed(vec3); //Sets velocity
 
     protected:

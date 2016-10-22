@@ -15,8 +15,8 @@
 #include "pawn.h"
 #include "object.h"
 
-#define GAME_WINDOW_WIDTH 800
-#define GAME_WINDOW_HEIGHT 600
+#define GAME_WINDOW_WIDTH 1280
+#define GAME_WINDOW_HEIGHT 720
 
 namespace __game__ {
 
@@ -26,7 +26,10 @@ namespace __game__ {
         ~cMain();
 
         void run();
-    private:
+
+        cObject* ROOT;//Is the root object. Stay safe young one
+
+    private: //Commented out because gosh darned it I have to write bad code. Don't do this at home kids.
         /* Initialization */
         void initSDL();
         void destroySDL();
@@ -59,15 +62,19 @@ namespace __game__ {
         uint8_t debugLevel;
 
         /* Actor storage */
-        cObject* ROOT;//Is the root object. Stay safe young one
         cCamera* mCamera; //Will always have a value. For quick access for third person
         cPawn* currPawn; //If not assigned, then free camera which can fly through. Rapid collision detection stuffs ECKS DEE
-        std::map<std::string, cActor*> mActors; //Actor storage (named for ease of access)
+        std::vector<cActor*> mActors;
+
+        /* Assignment specific shit which I'll probably say is TERRIBLE */
+        vec3 sunlight;
+        std::vector<double> altitudes;
+        GLuint* textures;
+        const int maxText = 1;
 
         /* Window storage */
         SDL_Window* mWindow;
         SDL_GLContext mContext;
-
 
         /* Current map storage data */
         int width;
