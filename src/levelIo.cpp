@@ -84,7 +84,10 @@ namespace __game__ {
             for (unsigned int i = 0; i < doc["roads"].Size(); i++) {
                 std::vector<std::pair<double, double> > points;
                 for (unsigned int j = 0; j < doc["roads"][i]["spine"].Size(); j++) {
-                    points.push_back(std::make_pair(doc["roads"][i]["spine"][j].GetDouble(), doc["roads"][i]["spine"][++j].GetDouble()));
+					double x = doc["roads"][i]["spine"][j].GetDouble();
+					double z = doc["roads"][i]["spine"][++j].GetDouble();
+                    points.push_back(std::make_pair(x, z));
+					//printf("%f %f\n", x,z);
                 }
                 cRoad* mRoad = new cRoad(doc["roads"][i]["width"].GetDouble(), points, altitudes, width);
                 mRoad->setName("road");
